@@ -1,7 +1,8 @@
-package com.ai.digiwes.product.control.persistence;
+package com.digiwes.product.control.persistence;
 
-import com.ai.digiwes.product.control.persistence.impl.CatalogPersistenceSimpleImpl;
-import com.ai.digiwes.product.control.persistence.impl.ProductOfferingPersistenceSimpleImpl;
+
+import com.digiwes.product.control.persistence.impl.CatalogPersistenceSimpleImpl;
+import com.digiwes.product.control.persistence.impl.ProductOfferingPersistenceSimpleImpl;
 
 /**
  * Created by Nisx on 2015/7/9.

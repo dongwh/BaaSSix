@@ -1,14 +1,13 @@
-package com.ai.baas.product.catalog;
+package com.digiwes.product.offering.catalog;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.util.DateUtils;
-import com.ai.baas.product.offering.ProductOffering;
-import com.ai.baas.product.offering.SimpleProductOffering;
-import com.ai.baas.product.offering.catalog.ProdCatalogProdOffer;
-import com.ai.baas.product.offering.catalog.ProductCatalog;
-import com.ai.baas.product.spec.AtomicProductSpecification;
-import com.ai.baas.product.offering.price.ComponentProductPrice;
-import com.ai.baas.product.offering.price.ProductOfferingPrice;
+
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.DateUtils;
+import com.digiwes.product.offering.ProductOffering;
+import com.digiwes.product.offering.SimpleProductOffering;
+import com.digiwes.product.offering.price.ComponentProductPrice;
+import com.digiwes.product.offering.price.ProductOfferingPrice;
+import com.digiwes.product.spec.AtomicProductSpecification;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -31,7 +30,7 @@ public class ProductCatalogTest {
 
     @Before
     public void   setUp() throws ParseException{
-        AtomicProductSpecification   atomicProdSpec = new AtomicProductSpecification("1", "11 Pounds MacBook Air", "apple", "Mac", new TimePeriod(DateUtils.datetimeFormat.parse("2015-02-10 23:59:59"),DateUtils.datetimeFormat.parse("2015-08-01 23:59:59")));
+        AtomicProductSpecification atomicProdSpec = new AtomicProductSpecification("1", "11 Pounds MacBook Air", "apple", "Mac", new TimePeriod(DateUtils.datetimeFormat.parse("2015-02-10 23:59:59"),DateUtils.datetimeFormat.parse("2015-08-01 23:59:59")));
         productOffering =new SimpleProductOffering("1","13-inch MacBook Pro","13-inch MacBook Pro", new TimePeriod(DateUtils.datetimeFormat.parse("2015-02-10 23:59:59"),DateUtils.datetimeFormat.parse("2015-08-01 23:59:59")),atomicProdSpec) ;
         catalog = new ProductCatalog("1","MAC","", new TimePeriod(DateUtils.datetimeFormat.parse("2015-02-10 23:59:59"),DateUtils.datetimeFormat.parse("2015-08-01 23:59:59")));
 

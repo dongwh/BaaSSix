@@ -1,7 +1,8 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
+
+import com.digiwes.basetype.TimePeriod;
 
 import java.util.*;
-import com.ai.baas.basetype.*;
 
 /**
  * A type of ProductSpecification that is formed by aggregating other ProductSpecifications, which may be Composite or Atomic ProductSpecifications.

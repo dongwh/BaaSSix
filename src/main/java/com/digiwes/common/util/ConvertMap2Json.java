@@ -1,9 +1,11 @@
-package com.ai.util;
+package com.digiwes.common.util;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.enums.ProdSpecEnum;
-import com.ai.baas.product.spec.ProductSpecCharacteristic;
-import com.ai.baas.product.spec.ProductSpecCharacteristicValue;
+
+
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.enums.ProdSpecEnum;
+import com.digiwes.product.spec.ProductSpecCharacteristic;
+import com.digiwes.product.spec.ProductSpecCharacteristicValue;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

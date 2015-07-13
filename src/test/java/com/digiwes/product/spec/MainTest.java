@@ -1,4 +1,4 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
 public class MainTest {
  public static void main(String[] args) {

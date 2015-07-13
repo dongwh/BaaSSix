@@ -1,7 +1,7 @@
-package com.ai.digiwes.product.control.persistence.impl;
+package com.digiwes.product.control.persistence.impl;
 
-import com.ai.baas.product.offering.ProductOffering;
-import com.ai.digiwes.product.control.persistence.ProductOfferingPersistence;
+import com.digiwes.product.control.persistence.ProductOfferingPersistence;
+import com.digiwes.product.offering.ProductOffering;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 

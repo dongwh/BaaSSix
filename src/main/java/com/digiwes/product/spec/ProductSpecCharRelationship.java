@@ -1,7 +1,5 @@
-package com.ai.baas.product.spec;
-
-import com.ai.baas.basetype.*;
-import com.ai.baas.common.enums.ProdSpecEnum;
+package com.digiwes.product.spec;
+import com.digiwes.basetype.TimePeriod;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 

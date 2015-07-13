@@ -1,4 +1,4 @@
-package com.ai.baas.common.constant;
+package com.digiwes.common.constant;
 
 public class Const {
 

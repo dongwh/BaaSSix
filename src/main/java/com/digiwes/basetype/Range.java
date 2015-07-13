@@ -1,4 +1,4 @@
-package com.ai.baas.basetype;
+package com.digiwes.basetype;
 
 public abstract class Range {
 

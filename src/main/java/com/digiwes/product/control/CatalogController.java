@@ -1,21 +1,18 @@
-package com.ai.digiwes.product.control;
+package com.digiwes.product.control;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.catalog.Catalog;
-import com.ai.baas.common.util.DateUtils;
-import com.ai.baas.product.offering.ProductOffering;
-import com.ai.baas.product.offering.catalog.ProductCatalog;
-import com.ai.baas.product.offering.price.ProductOfferingPrice;
-import com.ai.digiwes.product.control.persistence.CatalogPersistence;
-import com.ai.digiwes.product.control.persistence.PersistenceFactory;
-import com.ai.digiwes.product.control.persistence.ProductOfferingPersistence;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.product.control.persistence.CatalogPersistence;
+import com.digiwes.product.control.persistence.PersistenceFactory;
+import com.digiwes.product.control.persistence.ProductOfferingPersistence;
+import com.digiwes.product.control.persistence.impl.CatalogPersistenceSimpleImpl;
+import com.digiwes.product.offering.ProductOffering;
+import com.digiwes.product.offering.catalog.ProductCatalog;
+import com.digiwes.product.offering.price.ProductOfferingPrice;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
 import java.util.*;
-import com.ai.digiwes.product.control.persistence.CatalogPersistence;
-import com.ai.digiwes.product.control.persistence.impl.CatalogPersistenceSimpleImpl;
 
 import java.util.Date;
 import java.util.List;
@@ -26,10 +23,10 @@ import java.util.List;
 public class CatalogController {
       private Logger logger=Logger.getLogger(CatalogController.class);
 
-     public  ProductCatalog publishOffering(String catalogId,String offeringId,List<ProductOfferingPrice> productOfferingPrices)throws Exception{
+     public ProductCatalog publishOffering(String catalogId,String offeringId,List<ProductOfferingPrice> productOfferingPrices)throws Exception{
 
         TimePeriod validFor =new TimePeriod("2015-07-10 00:00:00", "2015-08-10 23:59:59");
-        CatalogPersistence catalogPersistence =PersistenceFactory.getCatalogPersistence();
+        CatalogPersistence catalogPersistence = PersistenceFactory.getCatalogPersistence();
         ProductOfferingPersistence productOfferingPersistence= PersistenceFactory.getProdOfferingPersistence();
        ProductCatalog catalog=catalogPersistence.load(catalogId);
         ProductOffering offering=productOfferingPersistence.load(offeringId);

@@ -1,18 +1,16 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.List;
-
+import com.digiwes.basetype.TimePeriod;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.util.DateUtils;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class ProductSpecificationEqualsTest {

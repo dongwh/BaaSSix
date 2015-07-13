@@ -1,6 +1,6 @@
-package com.ai.baas.product.offering.price;
+package com.digiwes.product.offering.price;
 
-import com.ai.baas.basetype.TimePeriod;
+import com.digiwes.basetype.TimePeriod;
 
 /**
  * Created by zhaoyp on 2015/7/9.

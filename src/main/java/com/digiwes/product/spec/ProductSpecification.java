@@ -1,11 +1,10 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
-import com.ai.baas.basetype.Money;
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.enums.ProdSpecEnum;
-import com.ai.baas.common.util.NumberUtil;
-import com.ai.baas.product.offering.SimpleProductOffering;
-import com.ai.util.ConvertMap2Json;
+import com.digiwes.basetype.Money;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.enums.ProdSpecEnum;
+import com.digiwes.common.util.NumberUtil;
+import com.digiwes.product.offering.SimpleProductOffering;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 

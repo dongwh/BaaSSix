@@ -1,27 +1,27 @@
-package com.ai.baas.product.offering;
+package com.digiwes.product.offering;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ai.baas.product.offering.price.ComponentProductPrice;
-import com.ai.baas.product.offering.price.ProductOfferingPrice;
-import com.ai.baas.product.spec.AtomicProductSpecification;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.DateUtils;
+import com.digiwes.product.offering.ProductOffering;
+import com.digiwes.product.offering.price.ComponentProductPrice;
+import com.digiwes.product.offering.price.ProductOfferingPrice;
+import com.digiwes.product.spec.AtomicProductSpecification;
+import com.digiwes.product.spec.ProductSpecification;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.util.DateUtils;
-import com.ai.baas.product.spec.ProductSpecification;
-import com.ai.baas.product.spec.ProductSpecificationTest;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class ProductOfferingTest {
 
-    private  ProductOffering productOffering ;
+    private ProductOffering productOffering ;
     private  BundledProductOffering bundledProductOffering;
     private ProductSpecification productSpecification;
     private ProductOfferingPrice price =null;

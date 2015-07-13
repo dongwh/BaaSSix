@@ -1,4 +1,4 @@
-package com.ai.baas.common.util;
+package com.digiwes.common.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -92,9 +92,7 @@ public class DateUtils {
 	/**
 	 * 日期转换为字符串
 	 * 
-	 * @param date
-	 *            日期
-	 * @param format
+
 	 *            日期格式
 	 * @return 字符串
 	 */
@@ -128,8 +126,6 @@ public class DateUtils {
 	 * 
 	 * @param date
 	 *            日期
-	 * @param format
-	 *            日期格式
 	 * @return 字符串
 	 */
 	public static String date2Str(Date date, SimpleDateFormat date_sdf) {
@@ -195,7 +191,6 @@ public class DateUtils {
 	 *            转换的匹配格式
 	 * @return 如果转换成功则返回转换后的日期
 	 * @throws ParseException
-	 * @throws AIDateFormatException
 	 */
 	public static Calendar parseCalendar(String src, String pattern)
 			throws ParseException {
@@ -209,13 +204,10 @@ public class DateUtils {
 	/**
 	 * 根据指定的格式将字符串转换成Date 如输入：2003-11-19 11:20:20将按照这个转成时间
 	 * 
-	 * @param src
 	 *            将要转换的原始字符窜
-	 * @param pattern
 	 *            转换的匹配格式
 	 * @return 如果转换成功则返回转换后的日期
 	 * @throws ParseException
-	 * @throws AIDateFormatException
 	 */
 	public static Calendar parseCalendar(Date date)
 			throws ParseException {
@@ -233,7 +225,6 @@ public class DateUtils {
 	 *            转换的匹配格式
 	 * @return 如果转换成功则返回转换后的日期
 	 * @throws ParseException
-	 * @throws AIDateFormatException
 	 */
 	public static Date parseDate(String src, String pattern)
 			throws ParseException {

@@ -1,10 +1,9 @@
-package com.ai.baas.product.spec.data;
-
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.product.offering.ProductOffering;
-import com.ai.baas.product.offering.SimpleProductOffering;
-import com.ai.baas.product.offering.price.ProductOfferingPrice;
-import com.ai.digiwes.product.control.persistence.PersistenceFactory;
+package com.digiwes.product.spec.data;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.product.control.persistence.PersistenceFactory;
+import com.digiwes.product.offering.ProductOffering;
+import com.digiwes.product.offering.SimpleProductOffering;
+import com.digiwes.product.offering.price.ProductOfferingPrice;
 import org.apache.log4j.Logger;
 
 /**

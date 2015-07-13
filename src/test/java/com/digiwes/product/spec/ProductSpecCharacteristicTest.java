@@ -1,4 +1,4 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,15 +6,14 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.enums.ProdSpecEnum;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.enums.ProdSpecEnum;
-import com.ai.baas.common.util.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

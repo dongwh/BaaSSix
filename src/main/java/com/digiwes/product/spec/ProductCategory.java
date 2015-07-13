@@ -1,4 +1,4 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
 /**
  * A method used to group a set of ProductSpecifications that are classified together because of common characteristics.

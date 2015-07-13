@@ -1,10 +1,9 @@
-package com.ai.baas.product.offering;
+package com.digiwes.product.offering;
 
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.product.spec.ProductSpecification;
 import org.junit.Test;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.util.DateUtils;
-import com.ai.baas.product.spec.ProductSpecification;
 
 public class SimpleProductOfferingTest {
 

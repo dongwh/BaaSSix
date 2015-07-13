@@ -1,21 +1,20 @@
-package com.ai.baas.product.business;
+package com.digiwes.product.business;
 
-import com.ai.baas.product.offering.ProductOffering;
-import com.ai.baas.product.offering.catalog.ProductCatalog;
-import com.ai.baas.product.offering.price.ProductOfferingPrice;
-import com.ai.baas.product.spec.data.*;
-import com.ai.digiwes.product.control.CatalogController;
-import com.ai.digiwes.product.control.persistence.CatalogPersistence;
-import com.ai.digiwes.product.control.persistence.PersistenceFactory;
-import com.ai.digiwes.product.control.persistence.ProductOfferingPersistence;
-import com.ai.util.ConvertMap2Json;
+
+import com.digiwes.product.control.CatalogController;
+import com.digiwes.product.control.persistence.CatalogPersistence;
+import com.digiwes.product.control.persistence.PersistenceFactory;
+import com.digiwes.product.control.persistence.ProductOfferingPersistence;
+import com.digiwes.product.offering.ProductOffering;
+import com.digiwes.product.offering.catalog.ProductCatalog;
+import com.digiwes.product.offering.price.ProductOfferingPrice;
+import com.digiwes.product.spec.data.*;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
-import com.ai.digiwes.product.control.CatalogController;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -28,7 +27,7 @@ import java.util.Objects;
  */
 public class BusinessCatalog {
     private  static CatalogPersistence catalogPersistence;
-    private static  ProductOfferingPersistence productOfferingPersistence;
+    private static ProductOfferingPersistence productOfferingPersistence;
     private  static CatalogController controller;
 	private static Logger logger=Logger.getLogger(BusinessCatalog.class);
     @BeforeClass

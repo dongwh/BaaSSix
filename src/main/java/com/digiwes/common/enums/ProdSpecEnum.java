@@ -1,4 +1,4 @@
-package com.ai.baas.common.enums;
+package com.digiwes.common.enums;
 
 public class ProdSpecEnum {
 

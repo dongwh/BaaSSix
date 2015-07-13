@@ -1,12 +1,10 @@
-package com.ai.baas.product.spec;
-
+package com.digiwes.product.spec;
 import java.util.*;
 
-import com.ai.util.ConvertMap2Json;
+import com.digiwes.basetype.TimePeriod;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.ai.baas.basetype.*;
 
 public class ProductSpecCharUse {
 	private static final Logger logger = Logger.getLogger(ProductSpecCharUse.class);

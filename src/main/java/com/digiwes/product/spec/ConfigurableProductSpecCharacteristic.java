@@ -1,6 +1,7 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
-import com.ai.baas.basetype.*;
+
+import com.digiwes.basetype.TimePeriod;
 
 /**
  * A type of ProductSpecCharacteristic, such as color, whose may be assigned during the ordering or some other process.

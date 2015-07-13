@@ -1,6 +1,6 @@
-package com.ai.baas.product.spec.data;
+package com.digiwes.product.spec.data;
 
-import com.ai.baas.basetype.TimePeriod;
+import com.digiwes.basetype.TimePeriod;
 import org.apache.log4j.Logger;
 
 import java.text.ParseException;

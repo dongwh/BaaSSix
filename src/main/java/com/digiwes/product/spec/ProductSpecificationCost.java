@@ -1,6 +1,7 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
-import com.ai.baas.basetype.*;
+import com.digiwes.basetype.Money;
+import com.digiwes.basetype.TimePeriod;
 
 /**
  * A monetary amount assigned to a ProductSpecification that represents the cost to the business to plan, develop, market, and implement the ProductSpecification.

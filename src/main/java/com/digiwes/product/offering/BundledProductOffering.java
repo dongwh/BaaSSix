@@ -1,7 +1,8 @@
-package com.ai.baas.product.offering;
+package com.digiwes.product.offering;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.util.NumberUtil;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.NumberUtil;
+import com.digiwes.product.offering.BundledProdOfferOption;
 
 import java.util.ArrayList;
 import java.util.List;

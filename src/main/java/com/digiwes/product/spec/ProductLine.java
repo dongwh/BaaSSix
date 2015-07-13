@@ -1,5 +1,4 @@
-package com.ai.baas.product.spec;
-
+package com.digiwes.product.spec;
 /**
  * A method used to group related ProductSpecifications marketed by the same company that differ only in size or style.
  */

@@ -1,4 +1,4 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.enums.ProdSpecEnum;
+import com.digiwes.common.util.DateUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
@@ -19,10 +22,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.internal.runners.statements.Fail;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.constant.Const;
-import com.ai.baas.common.enums.ProdSpecEnum;
-import com.ai.baas.common.util.DateUtils;
 
 public class ProductSpecificationTest {
 	private static final Logger log = Logger.getLogger(ProductSpecificationTest.class);

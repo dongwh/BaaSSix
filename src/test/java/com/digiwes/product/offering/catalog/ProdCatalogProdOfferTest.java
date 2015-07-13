@@ -1,12 +1,12 @@
-package com.ai.baas.product.catalog;
+package com.digiwes.product.offering.catalog;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.util.DateUtils;
-import com.ai.baas.product.offering.ProductOffering;
-import com.ai.baas.product.offering.SimpleProductOffering;
-import com.ai.baas.product.offering.catalog.ProductCatalog;
-import com.ai.baas.product.offering.price.ComponentProductPrice;
-import com.ai.baas.product.offering.price.ProductOfferingPrice;
+
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.DateUtils;
+import com.digiwes.product.offering.ProductOffering;
+import com.digiwes.product.offering.SimpleProductOffering;
+import com.digiwes.product.offering.price.ComponentProductPrice;
+import com.digiwes.product.offering.price.ProductOfferingPrice;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ public class ProdCatalogProdOfferTest {
         catalog.publishOffering(productOffering, validFor);
 
         //price is null
-        ProductOfferingPrice price = null;
+       ProductOfferingPrice price = null;
         boolean rtnFlag ;
         try {
             rtnFlag = catalog.getProdCatalogProdOffer().get(0).advertiseOfferingPrice(price);

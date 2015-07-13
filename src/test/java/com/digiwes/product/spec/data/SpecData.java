@@ -1,10 +1,10 @@
-package com.ai.baas.product.spec.data;
+package com.digiwes.product.spec.data;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.product.spec.AtomicProductSpecification;
-import com.ai.baas.product.spec.ProductSpecCharacteristic;
-import com.ai.baas.product.spec.ProductSpecCharacteristicValue;
-import com.ai.baas.product.spec.ProductSpecification;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.product.spec.AtomicProductSpecification;
+import com.digiwes.product.spec.ProductSpecCharacteristic;
+import com.digiwes.product.spec.ProductSpecCharacteristicValue;
+import com.digiwes.product.spec.ProductSpecification;
 import org.apache.log4j.Logger;
 
 import java.util.*;

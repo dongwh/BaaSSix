@@ -1,6 +1,6 @@
-package com.ai.baas.product.offering.price;
+package com.digiwes.product.offering.price;
 
-import com.ai.baas.basetype.*;
+import com.digiwes.basetype.TimePeriod;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;

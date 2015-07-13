@@ -1,4 +1,4 @@
-package com.ai.baas.common.util;
+package com.digiwes.common.util;
 
 public class NumberUtil {
 	

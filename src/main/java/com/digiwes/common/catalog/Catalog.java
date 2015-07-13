@@ -1,6 +1,6 @@
-package com.ai.baas.common.catalog;
+package com.digiwes.common.catalog;
 
-import com.ai.baas.basetype.*;
+import com.digiwes.basetype.TimePeriod;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 

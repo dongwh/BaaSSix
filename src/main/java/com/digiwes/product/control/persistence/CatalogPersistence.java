@@ -1,6 +1,7 @@
-package com.ai.digiwes.product.control.persistence;
+package com.digiwes.product.control.persistence;
 
-import com.ai.baas.product.offering.catalog.ProductCatalog;
+
+import com.digiwes.product.offering.catalog.ProductCatalog;
 
 import java.util.List;
 

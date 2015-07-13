@@ -1,12 +1,11 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
-import com.ai.baas.common.enums.ProdSpecEnum;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.enums.ProdSpecEnum;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.util.DateUtils;
 
 import java.util.*;
 
@@ -18,7 +17,7 @@ public class ProductSpecCharUseTest {
     private static TimePeriod validFor;
 	@Before
 	public void createProductSpecCharacteristic(){
-		prodSpecChar = new ProductSpecCharacteristic("1","depth",ProdSpecEnum.ProdSpecType.NUMERIC.getName(), validFor, "false",  1,  1, true, "height","");
+		prodSpecChar = new ProductSpecCharacteristic("1","depth", ProdSpecEnum.ProdSpecType.NUMERIC.getName(), validFor, "false",  1,  1, true, "height","");
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12", false);
 		prodSpecChar.addValue(prodSpecCharValue);
 		ProductSpecCharacteristicValue prodSpecCharValuee = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12.3", false);

@@ -1,8 +1,7 @@
-package com.ai.baas.product.offering;
+package com.digiwes.product.offering;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.product.spec.ProductSpecification;
-import com.ai.util.ConvertMap2Json;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.product.spec.ProductSpecification;
 import org.apache.log4j.Logger;
 
 import java.util.Map;

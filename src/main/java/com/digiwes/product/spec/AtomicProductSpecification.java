@@ -1,8 +1,9 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
+
+import com.digiwes.basetype.TimePeriod;
 
 import java.util.ArrayList;
 
-import com.ai.baas.basetype.*;
 
 /**
  * A type of ProductSpecification that does not have any subordinate ProductSpecifications, that is, an AtomicProductSpecification is a leaf-level ProductSpecification.

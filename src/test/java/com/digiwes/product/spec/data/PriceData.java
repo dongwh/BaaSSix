@@ -1,8 +1,7 @@
-package com.ai.baas.product.spec.data;
-
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.product.offering.price.ComponentProductPrice;
-import com.ai.baas.product.offering.price.ProductOfferingPrice;
+package com.digiwes.product.spec.data;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.product.offering.price.ComponentProductPrice;
+import com.digiwes.product.offering.price.ProductOfferingPrice;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.ai.baas.product.offering;
+package com.digiwes.product.offering;
 
 import org.apache.log4j.Logger;
 
@@ -14,10 +14,10 @@ import java.util.Objects;
 public class BundledProdOfferOption {
 
     private Logger logger = Logger.getLogger(BundledProdOfferOption.class);
-    private ProductOffering productOffering;
-    private BundledProductOffering bundledProductOffering;
+    private  ProductOffering productOffering;
+    private  BundledProductOffering bundledProductOffering;
     
-    public ProductOffering getProductOffering() {
+    public   ProductOffering getProductOffering() {
 		return productOffering;
 	}
 

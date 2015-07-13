@@ -1,4 +1,4 @@
-package com.ai.baas.basetype;
+package com.digiwes.basetype;
 
 /**
  * A base / value business entity used to represent a cost per time unit. e.g. $10/hr, 33 pence/min

@@ -1,7 +1,7 @@
-package com.ai.digiwes.product.control.persistence.impl;
+package com.digiwes.product.control.persistence.impl;
 
-import com.ai.baas.product.offering.catalog.ProductCatalog;
-import com.ai.digiwes.product.control.persistence.CatalogPersistence;
+import com.digiwes.product.control.persistence.CatalogPersistence;
+import com.digiwes.product.offering.catalog.ProductCatalog;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -16,7 +16,7 @@ public class CatalogPersistenceSimpleImpl implements CatalogPersistence {
     private static  final  String DATA_TYPE = "PROD_CATALOG";
 
     public void save(ProductCatalog catalog) throws Exception {
-        PersistenceSimpleImpl.getInstance().save(DATA_TYPE, catalog);
+       PersistenceSimpleImpl.getInstance().save(DATA_TYPE, catalog);
     }
     private List<ProductCatalog> getAllCatalog() {
         List<ProductCatalog> productCatalogList = new ArrayList<ProductCatalog>();

@@ -1,8 +1,8 @@
-package com.ai.baas.product.spec.data;
+package com.digiwes.product.spec.data;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.product.offering.catalog.ProductCatalog;
-import com.ai.digiwes.product.control.persistence.PersistenceFactory;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.product.control.persistence.PersistenceFactory;
+import com.digiwes.product.offering.catalog.ProductCatalog;
 import org.apache.log4j.Logger;
 
 /**

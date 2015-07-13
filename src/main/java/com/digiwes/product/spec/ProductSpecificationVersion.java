@@ -1,7 +1,7 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
+import com.digiwes.basetype.TimePeriod;
 
 import java.util.*;
-import com.ai.baas.basetype.*;
 
 /**
  * A particular form or variety of a ProductSpecification that is different from others or from the original. The form represents differences in properties that characterize a ProductSpecification, that are not enough to warrant creating a new ProductSpecification.

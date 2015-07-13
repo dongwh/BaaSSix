@@ -1,5 +1,4 @@
-package com.ai.baas.product.spec;
-
+package com.digiwes.product.spec;
 import java.util.*;
 
 /**

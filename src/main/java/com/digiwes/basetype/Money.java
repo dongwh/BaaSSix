@@ -1,4 +1,4 @@
-package com.ai.baas.basetype;
+package com.digiwes.basetype;
 
 /**
  * A base / value business entity used to represent money

@@ -1,6 +1,5 @@
-package com.ai.baas.basetype;
-
-import com.ai.baas.common.util.DateUtils;
+package com.digiwes.basetype;
+import com.digiwes.common.util.DateUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.text.ParseException;

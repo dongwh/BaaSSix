@@ -1,6 +1,5 @@
-package com.ai.baas.product.spec;
-
-import com.ai.baas.basetype.TimePeriod;
+package com.digiwes.product.spec;
+import com.digiwes.basetype.TimePeriod;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;

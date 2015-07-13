@@ -1,7 +1,7 @@
-package com.ai.baas.product.spec;
+package com.digiwes.product.spec;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.enums.ProdSpecEnum;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.enums.ProdSpecEnum;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;

@@ -1,9 +1,10 @@
-package com.ai.baas.product.spec.data;
+package com.digiwes.product.spec.data;
 
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.baas.common.enums.ProdSpecEnum;
-import com.ai.baas.product.spec.ProductSpecCharacteristic;
-import com.ai.baas.product.spec.ProductSpecCharacteristicValue;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.enums.ProdSpecEnum;
+import com.digiwes.product.spec.ProductSpecCharacteristic;
+import com.digiwes.product.spec.ProductSpecCharacteristicValue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class SpecCharData {
     private static final int CHAR_EXTENSIBLE = 6;
     private static final int CHAR_VALUE_TYPE = 7;
     private    static Object [][] specChar = {
-            {"1","processer","cpu",1,2,"false",false,ProdSpecEnum.ProdSpecType.TEXT.getValue()},
+            {"1","processer","cpu",1,2,"false",false, ProdSpecEnum.ProdSpecType.TEXT.getValue()},
             {"2","Size and weight","compositechar",1,1,"true",false," "},
             {"3","height","high",1,1,"true",true,ProdSpecEnum.ProdSpecType.FORTH.getValue()},
             {"4","width","width",1,1,"true",true,ProdSpecEnum.ProdSpecType.NUMERIC.getValue()},
@@ -68,7 +69,7 @@ public class SpecCharData {
     };
     private static Map<String, ProductSpecCharacteristic> charMap = new HashMap<String,ProductSpecCharacteristic>();
     private static  Map<String, ProductSpecCharacteristicValue> valueMap = new HashMap<String, ProductSpecCharacteristicValue>();
-    private static  TimePeriod validFor =  TimeUtil.creatTimePeriod("2015-06-01 00:00:00", "2015-08-01 00:00:00");
+    private static TimePeriod validFor =  TimeUtil.creatTimePeriod("2015-06-01 00:00:00", "2015-08-01 00:00:00");
     private static  Boolean isInit = false;
     public static synchronized void init() {
         if (!isInit) {

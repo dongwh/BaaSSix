@@ -1,7 +1,5 @@
-package com.ai.baas.product.offering;
-
-import com.ai.baas.basetype.TimePeriod;
-import com.ai.util.ConvertMap2Json;
+package com.digiwes.product.offering;
+import com.digiwes.basetype.TimePeriod;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,11 +1,10 @@
-package com.ai.baas.product.offering.catalog;
+package com.digiwes.product.offering.catalog;
 
-import com.ai.baas.product.offering.*;
 import java.util.*;
 
-import com.ai.baas.product.offering.price.*;
-import com.ai.baas.basetype.*;
-import com.ai.util.ConvertMap2Json;
+import com.digiwes.basetype.TimePeriod;
+import com.digiwes.product.offering.ProductOffering;
+import com.digiwes.product.offering.price.ProductOfferingPrice;
 import org.apache.log4j.Logger;
 
 /**
