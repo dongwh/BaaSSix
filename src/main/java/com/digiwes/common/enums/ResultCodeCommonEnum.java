@@ -7,7 +7,9 @@ public class ResultCodeCommonEnum {
 
     public enum ResultCodeCommon{
         SUCCESS("0","success"),
-        VALID_FOR("1","validFor is null. ");
+        VALID_FOR("1","validFor is null. "),
+        TIME("2","time is null"),
+        SHOULD_BE_LESS_THAN("3"," should be less than ");
         private String value;
         private String code;
         ResultCodeCommon(String value,String code){

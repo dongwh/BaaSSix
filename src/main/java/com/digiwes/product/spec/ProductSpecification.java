@@ -3,12 +3,18 @@ package com.digiwes.product.spec;
 import com.digiwes.basetype.Money;
 import com.digiwes.basetype.TimePeriod;
 import com.digiwes.common.enums.ProdSpecEnum;
+import com.digiwes.common.enums.ResultCodeCommonEnum;
+import com.digiwes.common.enums.ResultCodeSpecEnum;
 import com.digiwes.common.util.NumberUtil;
+import com.digiwes.common.util.ValidUtil;
 import com.digiwes.product.offering.SimpleProductOffering;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * A detailed description of a tangible or intangible object made available externally in the form of a ProductOffering to Customers or other Parties playing a PartyRole. A ProductSpecification may consist of other ProductSpecifications supplied together as a collection. Members of the collection may be offered in their own right. ProductSpecifications may also exist within groupings, such as ProductCategories, ProductLines, and ProductTypes.
@@ -114,15 +120,10 @@ public abstract class ProductSpecification {
 	 * @param brand
 	 */
     public ProductSpecification(String name, String productNumber, String brand) {
-		//check name is null
-		if(StringUtils.isEmpty(name)){
-			log.error("parameter is error ：name is null. ");
-			throw new IllegalArgumentException("name should not be null .");
-		}
-		if(StringUtils.isEmpty(productNumber)){
-			log.error("parameter is error ：productNumber is null. ");
-			throw new IllegalArgumentException("productNumber should not be null .");
-		}
+
+		assertNotNull("name must not null. ");
+		assertNotNull("productNumber must not null. ");
+
         this.name = name;
         this.productNumber = productNumber;
         this.brand = brand;
@@ -138,15 +139,10 @@ public abstract class ProductSpecification {
 	 * @param description
 	 */
     public ProductSpecification(String name, String productNumber, String brand, TimePeriod validFor, String description) {
-		//check name is null
-		if(StringUtils.isEmpty(name)){
-			log.error("parameter is error ：name is null. ");
-			throw new IllegalArgumentException("name can't be null .");
-		}
-		if(StringUtils.isEmpty(productNumber)){
-			log.error("parameter is error ：productNumber is null. ");
-			throw new IllegalArgumentException("productNumber can't be null .");
-		}
+
+		assertNotNull("name must not null. ");
+		assertNotNull("productNumber must not null. ");
+
         this.name = name;
         this.productNumber = productNumber;
         this.brand = brand;
@@ -164,18 +160,26 @@ public abstract class ProductSpecification {
 	 * @param validFor
 	 * @return
 	 */
-    public boolean addCharacteristic(ProductSpecCharacteristic specChar, String name, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
-		//check name and specChar
-		checkNameAndSpecChar(name, specChar);
-    	//initialize set of ProductSpecCharUse
+    public String addCharacteristic(ProductSpecCharacteristic specChar, String name, boolean canBeOveridden, boolean isPackage, TimePeriod validFor) {
+		//check name
+		if(StringUtils.isEmpty(name)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.NAME.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.NAME.getCode();
+		}
+		//check specChar
+		if(ValidUtil.checkObjectIsNull(specChar)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getCode();
+		}
+		//initialize set of ProductSpecCharUse
     	initProdSpecCharUseSet();
         //the charUse has been used under the specification, can't add the same charUse again
         ProductSpecCharUse prodSpecCharUseNew = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name);
 		if(this.prodSpecChar.contains(prodSpecCharUseNew)){
-			return false;
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHAR_ALREADY_BE_USED.getCode();
 		}
 		prodSpecChar.add(prodSpecCharUseNew);
-    	return true;
+    	return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     }
 
 	/**
@@ -192,18 +196,26 @@ public abstract class ProductSpecification {
 	 * @param description
 	 * @return
 	 */
-    public boolean addCharacteristic(ProductSpecCharacteristic specChar, String name, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
-		//check name and specChar
-		checkNameAndSpecChar(name, specChar);
+    public String addCharacteristic(ProductSpecCharacteristic specChar, String name, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String unique, int minCardinality, int maxCardinality, boolean extensible, String description){
+		//check name
+		if(StringUtils.isEmpty(name)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.NAME.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.NAME.getCode();
+		}
+		//check specChar
+		if(ValidUtil.checkObjectIsNull(specChar)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getCode();
+		}
     	//initialize set of ProductSpecCharUse
     	initProdSpecCharUseSet();
 		//the charUse has been used under the specification, can't add the same charUse again
 		ProductSpecCharUse prodSpecCharUseNew = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
 		if(this.prodSpecChar.contains(prodSpecCharUseNew)){
-			return false;
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHAR_ALREADY_BE_USED.getCode();
 		}
 		prodSpecChar.add(prodSpecCharUseNew);
-    	return true;
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     }
 
 	/**
@@ -212,19 +224,28 @@ public abstract class ProductSpecification {
 	 * @param name
 	 * @return
 	 */
-    public void removeCharacteristic(ProductSpecCharacteristic specChar, String name){
-		//check name and specChar
-		checkNameAndSpecChar(name, specChar);
+    public String removeCharacteristic(ProductSpecCharacteristic specChar, String name){
+		//check name
+		if(StringUtils.isEmpty(name)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.NAME.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.NAME.getCode();
+		}
+		//check specChar
+		if(ValidUtil.checkObjectIsNull(specChar)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getCode();
+		}
     	if (null != this.prodSpecChar){
     		for (ProductSpecCharUse prodSpecUse : prodSpecChar) {
-    			if(prodSpecUse.getProdSpecChar().equals(specChar) && prodSpecUse.getName().equals(name)){
-    				this.prodSpecChar.remove(prodSpecUse);
-					return;
+    			if(prodSpecUse.getProdSpecChar().equals(specChar) && prodSpecUse.getName().equals(name)) {
+					this.prodSpecChar.remove(prodSpecUse);
+					return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     			}
 			}
     	}
     	//an Object which is not exist
     	log.warn("the characteristic in not exist under this spec. ");
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     }
 
 	/**
@@ -235,11 +256,22 @@ public abstract class ProductSpecification {
 	 * @param isDefault
 	 * @param validFor
 	 */
-    public void attachCharacteristicValue(ProductSpecCharacteristic specChar, String name, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
-		//check name and specChar
-		checkNameAndSpecChar(name, specChar);
-    	//judge charValue is null
-    	checkProdSpecCharValue(charValue);
+    public String attachCharacteristicValue(ProductSpecCharacteristic specChar, String name, ProductSpecCharacteristicValue charValue, boolean isDefault, TimePeriod validFor) {
+		//check name
+		if(StringUtils.isEmpty(name)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.NAME.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.NAME.getCode();
+		}
+		//check specChar
+		if(ValidUtil.checkObjectIsNull(specChar)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getCode();
+		}
+    	//check charValue is null
+		if(ValidUtil.checkObjectIsNull(charValue)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC_VALUE.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC_VALUE.getCode();
+		}
     	if(null != prodSpecChar && prodSpecChar.size()>0){
     		for (ProductSpecCharUse prodSpecCharUse : this.prodSpecChar) {
     			if(prodSpecCharUse.getProdSpecChar().equals(specChar) && prodSpecCharUse.getName().equals(name)){
@@ -248,6 +280,7 @@ public abstract class ProductSpecification {
 				}
 			}
     	}
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     }
 
 	/**
@@ -256,25 +289,33 @@ public abstract class ProductSpecification {
 	 * @param name
 	 * @param charValue
 	 */
-    public void detachCharacteristicValue(ProductSpecCharacteristic specChar,String name, ProductSpecCharacteristicValue charValue){
-		//check name and specChar
-		checkNameAndSpecChar(name, specChar);
-    	//judge charValue is null
-    	checkProdSpecCharValue(charValue);
-    	boolean charIsExist = false;
+    public String detachCharacteristicValue(ProductSpecCharacteristic specChar,String name, ProductSpecCharacteristicValue charValue){
+		//check name
+		if(StringUtils.isEmpty(name)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.NAME.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.NAME.getCode();
+		}
+		//check specChar
+		if(ValidUtil.checkObjectIsNull(specChar)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getCode();
+		}
+		//check charValue is null
+		if(ValidUtil.checkObjectIsNull(charValue)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC_VALUE.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC_VALUE.getCode();
+		}
     	if(null != prodSpecChar && prodSpecChar.size()>0){
     		for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
-    			if(prodSpecCharUse.getProdSpecChar().equals(specChar) && prodSpecCharUse.getName().equals(name)){
-    				charIsExist = true;
+				if (prodSpecCharUse.getProdSpecChar().equals(specChar) && prodSpecCharUse.getName().equals(name)){
     				prodSpecCharUse.removeValue(charValue);
-					break;
+					return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     			}
 			}
-    		if(!charIsExist){
-    			log.error("under the prodSpec didn't use the characteristic which the value will be used by characteristic");
-    		}
-    	}
-    }
+		}
+		log.error("under the prodSpec didn't use the characteristic which the value will be used by characteristic");
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
+	}
 
 	/**
 	 *
@@ -282,19 +323,31 @@ public abstract class ProductSpecification {
 	 * @param name
 	 * @param defaultCharValue
 	 */
-    public void specifyDefaultCharacteristicValue(ProductSpecCharacteristic specChar, String name, ProductSpecCharacteristicValue defaultCharValue) {
-		//check name and specChar
-		checkNameAndSpecChar(name, specChar);
-    	//judge charValue is null
-    	checkProdSpecCharValue(defaultCharValue);
+    public String specifyDefaultCharacteristicValue(ProductSpecCharacteristic specChar, String name, ProductSpecCharacteristicValue defaultCharValue) {
+		//check name
+		if(StringUtils.isEmpty(name)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.NAME.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.NAME.getCode();
+		}
+		//check specChar
+		if(ValidUtil.checkObjectIsNull(specChar)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getCode();
+		}
+		//check defaultCharValue is null
+		if(ValidUtil.checkObjectIsNull(defaultCharValue)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC_VALUE.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC_VALUE.getCode();
+		}
     	if(null != this.prodSpecChar){
     		for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
-    			if(prodSpecCharUse.getProdSpecChar().equals(specChar) && prodSpecCharUse.getName().equals(name)){
+				if (prodSpecCharUse.getProdSpecChar().equals(specChar) && prodSpecCharUse.getName().equals(name)){
     				prodSpecCharUse.specifyDefaultCharacteristicValue(defaultCharValue);
 					break;
 				}
 			}
     	}
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     }
 
 	/**
@@ -303,11 +356,22 @@ public abstract class ProductSpecification {
 	 * @param name
 	 * @param defaultCharValue
 	 */
-	public void clearDefaultCharacteristicValue(ProductSpecCharacteristic specChar, String name, ProductSpecCharacteristicValue defaultCharValue) {
-		//check name and specChar
-		checkNameAndSpecChar(name, specChar);
-		//judge charValue is null
-		checkProdSpecCharValue(defaultCharValue);
+	public String clearDefaultCharacteristicValue(ProductSpecCharacteristic specChar, String name, ProductSpecCharacteristicValue defaultCharValue) {
+		//check name
+		if(StringUtils.isEmpty(name)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.NAME.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.NAME.getCode();
+		}
+		//check specChar
+		if(ValidUtil.checkObjectIsNull(specChar)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getCode();
+		}
+		//check defaultCharValue is null
+		if(ValidUtil.checkObjectIsNull(defaultCharValue)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC_VALUE.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC_VALUE.getCode();
+		}
 		if (this.prodSpecChar != null) {
 			for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
 				if(prodSpecCharUse.getProdSpecChar().equals(specChar) && prodSpecCharUse.getName().equals(name)){
@@ -316,6 +380,7 @@ public abstract class ProductSpecification {
 				}
 			}
 		}
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
 	}
 
     /**
@@ -324,8 +389,8 @@ public abstract class ProductSpecification {
      */
     public List<ProductSpecCharUse> retrieveCharacteristic(Date time) {
     	if(null == time){
-    		log.error("parameter is error ：time is null. ");
-    		throw new IllegalArgumentException("specChar should not be null .");
+    		log.error(ResultCodeCommonEnum.ResultCodeCommon.TIME.getValue());
+    		throw new IllegalArgumentException(ResultCodeCommonEnum.ResultCodeCommon.TIME.getValue());
     	}
 		List<ProductSpecCharUse> prodSpecCharUseByDate = new ArrayList<ProductSpecCharUse>();
     	if(null != this.prodSpecChar){
@@ -440,15 +505,16 @@ public abstract class ProductSpecification {
 	 * @param maxCardinality
 	 * @return
 	 */
-    public boolean setCardinality(ProductSpecCharacteristic specChar, String name, int minCardinality, int maxCardinality) {
-		if(null == prodSpecChar){
-			log.error("parameter is error ：the Object of ProductSpecCharacteristic is null. ");
-			throw new IllegalArgumentException("specChar should not be null .");
+    public String setCardinality(ProductSpecCharacteristic specChar, String name, int minCardinality, int maxCardinality) {
+		//check specChar
+		if(ValidUtil.checkObjectIsNull(specChar)){
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPEC_CHARACTERISTIC.getCode();
 		}
         int rtnNum = NumberUtil.compareTheNumber(minCardinality, maxCardinality);
         if(rtnNum == 1){
-        	log.error("minCardinality should be less than or equal to  maxCardinality.");
-        	throw new IllegalArgumentException("the parameter of verType is error.");
+        	log.error("minCardinality"+ResultCodeCommonEnum.ResultCodeCommon.SHOULD_BE_LESS_THAN.getValue()+"maxCardinality.");
+        	return ResultCodeCommonEnum.ResultCodeCommon.SHOULD_BE_LESS_THAN.getCode();
         }
         if(null != prodSpecChar && prodSpecChar.size()>0){
         	for (ProductSpecCharUse prodSpecCharUse : prodSpecChar) {
@@ -459,7 +525,7 @@ public abstract class ProductSpecification {
         		}
 			}
         }
-        return true;
+        return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     }
 
     /**
@@ -470,29 +536,30 @@ public abstract class ProductSpecification {
      * @param revisionDate
      * @param validFor
      */
-    private void specifyVersion(String verType, String curTypeVersion, String description, Date revisionDate, TimePeriod validFor) {
+    private String specifyVersion(String verType, String curTypeVersion, String description, Date revisionDate, TimePeriod validFor) {
     	if(StringUtils.isEmpty(verType)){
-    		log.error("the parameter of verType is null. ");
-    		throw new IllegalArgumentException("the parameter of verType is error.");
+    		log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_VERSION_TYPE.getValue());
+    		return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_VERSION_TYPE.getCode();
     	}
     	if(StringUtils.isEmpty(curTypeVersion)){
-    		log.error("the parameter of curTypeVersion is null. ");
-    		throw new IllegalArgumentException("the parameter of curTypeVersion is error.");
+    		log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_CURRENT_VERSION.getValue());
+    		return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_CURRENT_VERSION.getCode();
     	}
-    	if(null == validFor){
-    		log.error("the parameter of validFor is null. ");
-    		throw new IllegalArgumentException("the parameter of validFor is error.");
+    	if(ValidUtil.checkObjectIsNull(validFor)){
+    		log.error(ResultCodeCommonEnum.ResultCodeCommon.VALID_FOR.getValue());
+    		return ResultCodeCommonEnum.ResultCodeCommon.VALID_FOR.getCode();
     	}
-    	ProductSpecificationVersion versi= new ProductSpecificationVersion(verType,description,curTypeVersion,revisionDate,validFor);
+    	ProductSpecificationVersion version= new ProductSpecificationVersion(verType,description,curTypeVersion,revisionDate,validFor);
     	if(prodSpecVersion==null ){
 			prodSpecVersion = new ArrayList<ProductSpecificationVersion>();
 		}
     	if(null != this.getProdSpecVersion()){
-			if(this.getProdSpecVersion().contains(versi)){
-				return;
+			if(this.getProdSpecVersion().contains(version)){
+				return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION_VERSION_ALREADY_BE_USED.getCode();
 			}
     	}
-		prodSpecVersion.add(versi);
+		prodSpecVersion.add(version);
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     }
 
     /**
@@ -503,18 +570,19 @@ public abstract class ProductSpecification {
      * @param validFor
      * @throws Exception 
      */
-    public void specifyVersion(String version, String description, Date revisionDate, TimePeriod validFor) throws Exception {
+    public String specifyVersion(String version, String description, Date revisionDate, TimePeriod validFor) throws Exception {
     	if(version!=null && !"".equals(version)){
     		String []vos = version.split("\\.");
     		if(vos.length!=3){
-    			log.error("the format of version is not correct");
-    			throw new IllegalArgumentException("the parameter of version is error.");
+    			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION_VERSION_SIZE.getValue()+" 3. ");
+    			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION_VERSION_SIZE.getCode();
     		}else{
 				specifyVersion(ProdSpecEnum.VersionLevel.MAJOR_VERSION.getValue(), vos[0], description, revisionDate, validFor);
 				specifyVersion(ProdSpecEnum.VersionLevel.MINOR_VERSION.getValue(), vos[1], description, revisionDate, validFor);
 				specifyVersion(ProdSpecEnum.VersionLevel.PATCH_VERSION.getValue(), vos[2], description, revisionDate, validFor);
     		}
     	}
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     }
     
     public List<ProductSpecificationVersion> retrieveCurrentVersion() {
@@ -600,29 +668,30 @@ public abstract class ProductSpecification {
      * @param type
      * @param validFor
      */
-    public boolean addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
+    public String addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
     	if(StringUtils.isEmpty(type)){
-    		log.error("the parameter type is null. ");
-    		throw new IllegalArgumentException("type should not be null. ");
+    		log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION_RELATIONSHIP_TYPE.getValue());
+    		return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION_RELATIONSHIP_TYPE.getCode();
     	}
-    	if(null == prodSpec){
-    		log.error("the object of ProductSpecification is null. ");
-    		throw new IllegalArgumentException("prodSpec should not be null .");
+    	if(ValidUtil.checkObjectIsNull(prodSpec)){
+    		log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION.getCode();
     	}
+		if(ValidUtil.checkObjectIsNull(validFor)){
+			log.error(ResultCodeCommonEnum.ResultCodeCommon.VALID_FOR.getValue());
+			return ResultCodeCommonEnum.ResultCodeCommon.VALID_FOR.getCode();
+		}
 		if(this.equals(prodSpec)){
-			log.error("can't establish relationship with itself. ");
-			throw new IllegalArgumentException("can't establish relationship with itself. ");
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION_ALREADY_BE_USED.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION_ALREADY_BE_USED.getCode();
 		}
-		if(null == validFor){
-			log.error("validFor is null. ");
-			throw new IllegalArgumentException("validFor should not be null .");
-		}
+
 		//checkout time is in period
 		ProductSpecificationRelationship prodSpecRealtionship = this.retrieveRelatedProdSpecBySpec(prodSpec);
 		if(null != prodSpecRealtionship){
 			if(prodSpecRealtionship.getValidFor().isOverlap(validFor)){
-				log.error("time is in period");
-				return false;
+				log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION_VALIDFOR.getValue());
+				return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION_VALIDFOR.getCode();
 			}
 		}
     	if(null == this.prodSpecRelationship){
@@ -630,7 +699,7 @@ public abstract class ProductSpecification {
     	}
     	ProductSpecificationRelationship ship =new ProductSpecificationRelationship(this, prodSpec, type, validFor);
     	this.prodSpecRelationship.add(ship);
-		return true;
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
     }
 
 	/**
@@ -640,29 +709,29 @@ public abstract class ProductSpecification {
 	 * @param validFor
 	 * @return
 	 */
-	public boolean updateRelatedSpecValidPeriod(ProductSpecification prodSpec, TimePeriod oldValidFor, TimePeriod validFor){
+	public String updateRelatedSpecValidPeriod(ProductSpecification prodSpec, TimePeriod oldValidFor, TimePeriod validFor){
 
-		if (null == prodSpec ) {
-			log.error("prodSpecChar should not be null. ");
-			throw new IllegalArgumentException("prodSpecChar should not be null. ");
+		if (ValidUtil.checkObjectIsNull(prodSpec)) {
+			log.error(ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION.getValue());
+			return ResultCodeSpecEnum.ResultCodeSpec.PRODUCT_SPECIFICATION.getCode();
 		}
-		if (null == oldValidFor ){
-			log.error("oldValidFor should not be null .");
-			throw new IllegalArgumentException("oldValidFor should not be null. ");
+		if (ValidUtil.checkObjectIsNull(oldValidFor)){
+			log.error("oldValidFor"+ ResultCodeCommonEnum.ResultCodeCommon.VALID_FOR.getValue());
+			return ResultCodeCommonEnum.ResultCodeCommon.VALID_FOR.getCode();
 		}
-		if (null == validFor ){
-			log.error("validFor should not be null .");
-			throw new IllegalArgumentException("validFor should not be null. ");
+		if (ValidUtil.checkObjectIsNull(validFor)){
+			log.error(ResultCodeCommonEnum.ResultCodeCommon.VALID_FOR.getValue());
+			return ResultCodeCommonEnum.ResultCodeCommon.VALID_FOR.getCode();
 		}
 		if ( null != prodSpecRelationship) {
 			for (ProductSpecificationRelationship productSpecRelationship : prodSpecRelationship) {
 				if ( productSpecRelationship.getTargetProdSpec().equals(prodSpec) && productSpecRelationship.getValidFor().equals(oldValidFor)) {
 					productSpecRelationship.setValidFor(validFor);
-					return true;
+					return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
 				}
 			}
 		}
-		return false;
+		return ResultCodeCommonEnum.ResultCodeCommon.SUCCESS.getCode();
 	}
 
     /**
@@ -675,8 +744,8 @@ public abstract class ProductSpecification {
     		throw new IllegalArgumentException("type should not be null .");
     	}
     	List<ProductSpecification> rtnResultSpec = new ArrayList<ProductSpecification>();
-    	if(null != this.prodSpecRelationship){
-    		for (ProductSpecificationRelationship prodSpecRelate : this.prodSpecRelationship) {
+    	if(null != this.prodSpecRelationship) {
+			for (ProductSpecificationRelationship prodSpecRelate : this.prodSpecRelationship) {
     			if(prodSpecRelate.getType().equals(type)){
 					rtnResultSpec.add(prodSpecRelate.getTargetProdSpec());
     			}
@@ -709,7 +778,7 @@ public abstract class ProductSpecification {
     	}
     	return rtnResultSpec;
     }
-    
+
     /**
      * initialize set of ProductSpecCharUse
      */
@@ -717,31 +786,6 @@ public abstract class ProductSpecification {
     	if (null == prodSpecChar) {
 			prodSpecChar = new HashSet<ProductSpecCharUse>();
 		}
-    }
-
-	/**
-	 * check parameter is null
-	 */
-    private void checkNameAndSpecChar(String name, ProductSpecCharacteristic prodSpecChar){
-		//name is not null
-		if(StringUtils.isEmpty(name)){
-			log.error("parameter is error ：name is null. ");
-			throw new IllegalArgumentException("name should not be null .");
-		}
-		if(null == prodSpecChar){
-			log.error("parameter is error ：the Object of ProductSpecCharacteristic is null. ");
-			throw new IllegalArgumentException("specChar should not be null .");
-		}
-	}
-
-    /**
-     * check parameter is null
-     */
-    public void checkProdSpecCharValue(ProductSpecCharacteristicValue charValue){
-    	if(null == charValue){
-    		log.error("parameter is error ：the Object of ProductSpecCharacteristicValue is null. ");
-    		throw new IllegalArgumentException("charValue should not be null .");
-    	}
     }
 
 	@Override
@@ -775,6 +819,7 @@ public abstract class ProductSpecification {
 	public String getBasicInfoToString(){
 		return getBasicInfo().toString();
 	}
+
 	private Map<String, Object> getBasicInfo(){
 		Map<String, Object> basicInfoMap = new HashMap<String, Object>();
 		this.lifecycleStatus = ProdSpecEnum.ProdSpecStatus.STATUS_ACTIVE.getValue();
