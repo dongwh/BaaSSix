@@ -9,21 +9,21 @@ public class ResultCodeCommonEnum {
         SUCCESS("0","success"),
         VALID_FOR("1","validFor is null. ");
         private String value;
-        private String name;
-        ResultCodeCommon(String value,String name){
+        private String code;
+        ResultCodeCommon(String value,String code){
             this.value = value;
-            this.name = name;
+            this.code = code;
         }
         public String getValue(){
             return this.value;
         }
-        public String getName(){
-            return this.name;
+        public String getCode(){
+            return this.code;
         }
 
-        public String getValueByName(String name){
+        public String getValueByCode (String code){
             for(ResultCodeCommon resultCode : ResultCodeCommon.values()){
-                if(resultCode.getName().equals(name)){
+                if(resultCode.getCode().equals(code)){
                     return resultCode.getValue();
                 }
             }
