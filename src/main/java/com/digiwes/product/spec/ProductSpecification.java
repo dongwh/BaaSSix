@@ -605,7 +605,7 @@ public abstract class ProductSpecification {
      */
     public int addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
     	if (StringUtils.isEmpty(type)) {
-			return ProdSpecErrorCode.RELATIONSHIP_TYPE_IS_NULL.getCode();
+			return ProdSpecErrorCode.PROD_SPEC_HAS_RELATED_TO_CURRENT.getCode();
     	}
     	if(!ValidUtil.checkObjectIsNull(prodSpec)){
 			return ProdSpecErrorCode.PROD_SPEC_IS_NULL.getCode();
