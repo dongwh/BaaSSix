@@ -1,6 +1,7 @@
 package com.digiwes.product.spec;
 
 import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.ValidUtil;
 import org.apache.log4j.Logger;
 import java.util.Map;
 import java.util.HashMap;
@@ -48,10 +49,8 @@ public class ProdSpecCharValueUse {
      * @param validFor
      */
     public ProdSpecCharValueUse(ProductSpecCharacteristicValue charVal, boolean isDefault, TimePeriod validFor) {
-        if ( null == charVal){
-			logger.error("charValue should not be null");
-			throw  new IllegalArgumentException("charValue should not be null");
-		}
+        assert  !ValidUtil.checkObjectIsNull(charVal) :"charValue should not be null";
+
 		this.prodSpecCharValue = charVal;
         this.isDefault = isDefault;
         this.validFor = validFor;

@@ -2,6 +2,7 @@ package com.digiwes.product.spec;
 import java.util.*;
 
 import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.ValidUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -135,7 +136,13 @@ public class ProductSpecCharUse {
 	 * @param name
 	 */
     public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name) {
-		 init(specChar,canBeOveridden,isPackage,validFor,name);
+		assert   !ValidUtil.checkObjectIsNull(specChar) :"specChar should not be null";
+		assert   !StringUtils.isEmpty(name) : "name should not be null";
+
+		this.name = name;
+		this.prodSpecChar =specChar;
+		this.canBeOveridden=canBeOveridden;
+		this.isPackage = isPackage;
     }
     /**
      * 
@@ -151,66 +158,25 @@ public class ProductSpecCharUse {
      * @param description
      */
     public ProductSpecCharUse(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-		init(specChar,canBeOveridden,isPackage,validFor,name);
+		this(specChar,canBeOveridden,isPackage,validFor,name);
+
         this.unique = unique;
         this.minCardinality = minCardinality;
         this.maxCardinality = maxCardinality;
         this.extensible = extensible;
         this.description = description;
     }
-	private void init(ProductSpecCharacteristic specChar, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name){
-		if (null == specChar) {
-			logger.error("specChar should not be null");
-			throw new IllegalArgumentException("specChar should not be null");
-		}
-		if(StringUtils.isEmpty(name)){
-			logger.error("name should not be null");
-			throw new IllegalArgumentException("name should not be null");
-		}
-		this.name = name;
-		this.prodSpecChar =specChar;
-		this.canBeOveridden=canBeOveridden;
-		this.isPackage = isPackage;
-	}
-
-    /**
-     * 
-     * @param specCharId
-     * @param canBeOveridden
-     * @param isPackage
-     * @param validFor
-     * @param name
-     * @param unique
-     * @param minCardinality
-     * @param maxCardinality
-     * @param extensible
-     * @param description
-     */
-    public ProductSpecCharUse(String specCharId, boolean canBeOveridden, boolean isPackage, TimePeriod validFor, String name, String unique, int minCardinality, int maxCardinality, boolean extensible, String description) {
-
-		 this.canBeOveridden = canBeOveridden;
-    	 this.isPackage =isPackage;
-    	 this.name=name;
-    	 this.unique =unique;
-    	 this.minCardinality=minCardinality;
-    	 this.maxCardinality =maxCardinality;
-    	 this.extensible =extensible;
-    	 this.description =description;
-    }
-
     /**
      * 
      * @param minCardinality
      * @param maxCardinality
      */
-    public void specifyCardinality(int minCardinality, int maxCardinality) {
+    public boolean specifyCardinality(int minCardinality, int maxCardinality) {
 		if(minCardinality <= maxCardinality){
 			this.minCardinality = minCardinality;
 			this.maxCardinality = maxCardinality;
-		}else{
-			logger.error("minCardinality is less than maxCardinality");
-			throw new IllegalArgumentException();
 		}
+		return false;
     }
 
     /**
@@ -252,10 +218,9 @@ public class ProductSpecCharUse {
     		for(ProdSpecCharValueUse charValueUse :prodSpecCharValue){
         		if(charValueUse.getProdSpecCharValue().equals(charValue)){
         			prodSpecCharValue.remove(charValueUse);
+					break;
         		}
         	}	
-    	} else {
-			logger.warn("the current ProSpecChar have not value");
     	}
 		return true;
     }

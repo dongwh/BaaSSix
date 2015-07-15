@@ -112,4 +112,22 @@ public class TimePeriod {
         return  vaildFor.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TimePeriod that = (TimePeriod) o;
+
+        if (!startDateTime.equals(that.startDateTime)) return false;
+        return endDateTime.equals(that.endDateTime);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = startDateTime.hashCode();
+        result = 31 * result + endDateTime.hashCode();
+        return result;
+    }
 }

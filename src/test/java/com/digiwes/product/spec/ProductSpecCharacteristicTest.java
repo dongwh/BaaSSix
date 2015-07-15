@@ -17,12 +17,12 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ProductSpecCharacteristicTest {
 	private static final Logger logger = Logger.getLogger(ProductSpecCharacteristicTest.class);
 	private ProductSpecCharacteristic prodSpecChar;
+    private ProductSpecCharacteristic exceptProdSpecChar;
     private ProductSpecCharacteristic configSpecChar;
 
     private static TimePeriod validFor;
@@ -39,9 +39,14 @@ public class ProductSpecCharacteristicTest {
         value=new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(),"GHz",new TimePeriod("2015-05-03 12:00:00","2015-07-21 23:59:59"),"2.9",true);
         configSpecChar.addValue(value);
     }
+    @Test
+    public void testProductSpecCharacteristic(){
+        prodSpecChar = new ProductSpecCharacteristic( null, "height", ProdSpecEnum.ProdSpecType.NUMERIC.getName(), validFor, "false",  1,  1, true, "height","");
 
+    }
 	@Test
 	public void  testAddValue(){
+        Set<ProductSpecCharacteristicValue> exceptProductSpecCharacteristicValues=new HashSet<ProductSpecCharacteristicValue>();
         boolean result = false;
         ProductSpecCharacteristicValue prodSpecCharValue=null;
         try{
@@ -57,25 +62,29 @@ public class ProductSpecCharacteristicTest {
         }catch(IllegalArgumentException ex){
         }
         prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "GHz", validFor, "8",true);
+        exceptProductSpecCharacteristicValues.add(prodSpecCharValue) ;
         result=prodSpecChar.addValue(prodSpecCharValue);
         assertEquals("add a normal value",true,result);
-        assertEquals("add a normal value",true,prodSpecChar.getProdSpecCharValue().contains(prodSpecCharValue));
         assertEquals("add a normal value", 1, prodSpecChar.getProdSpecCharValue().size());
+        assertEquals("add a normal value",exceptProductSpecCharacteristicValues,prodSpecChar.getProdSpecCharValue());
+
 
         result= prodSpecChar.addValue(prodSpecCharValue);
         assertEquals("Add a duplicate value",true,result);
         assertEquals("Add a duplicate value",1,prodSpecChar.getProdSpecCharValue().size());
-
+        assertEquals("Add a duplicate value",exceptProductSpecCharacteristicValues,prodSpecChar.getProdSpecCharValue());
 
         prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "GHz", validFor, "8",true);
         result= prodSpecChar.addValue(prodSpecCharValue);
         assertEquals("Add a duplicate value ,Values are the same as before. ",true,result);
         assertEquals("Add a duplicate value ,Values are the same as before. ", 1, prodSpecChar.getProdSpecCharValue().size());
+        assertEquals("Add a duplicate value ,Values are the same as before.",exceptProductSpecCharacteristicValues,prodSpecChar.getProdSpecCharValue());
 
 	} 
 	@Test
 	public void  testRemoveValue(){
         boolean result = false;
+        Set<ProductSpecCharacteristicValue> exceptProductSpecCharacteristicValues=new HashSet<ProductSpecCharacteristicValue>();
         ProductSpecCharacteristicValue prodSpecCharValue = null;
         try{
             prodSpecChar.removeValue(prodSpecCharValue);
@@ -89,14 +98,16 @@ public class ProductSpecCharacteristicTest {
         assertEquals("the current char have no value",null,prodSpecChar.getProdSpecCharValue());
 
         prodSpecChar.addValue(prodSpecCharValue);
+        exceptProductSpecCharacteristicValues.add(prodSpecCharValue);
         result=prodSpecChar.removeValue(prodSpecCharValue);
+        exceptProductSpecCharacteristicValues.remove(prodSpecCharValue);
         assertEquals("value is belong of Char", true, result);
-        assertEquals("value is belong of Char", false, prodSpecChar.getProdSpecCharValue().contains(prodSpecCharValue));
+        assertEquals("value is belong of Char", exceptProductSpecCharacteristicValues, prodSpecChar.getProdSpecCharValue());
 
         prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "mi", validFor, "10",true);
         result=prodSpecChar.removeValue(prodSpecCharValue);
         assertEquals("value not  belong of Char", true, result);
-        assertEquals("value not belong of Char",false,prodSpecChar.getProdSpecCharValue().contains(prodSpecCharValue));
+        assertEquals("value not belong of Char",exceptProductSpecCharacteristicValues,prodSpecChar.getProdSpecCharValue());
 
 	}
     @Test
@@ -105,32 +116,42 @@ public class ProductSpecCharacteristicTest {
 
         Date time=null;
         List<ProductSpecCharacteristicValue> prodSpecCharValues=null;
+        List<ProductSpecCharacteristicValue> exceptProductSpecCharacteristicValues=new ArrayList<ProductSpecCharacteristicValue>();
         try {
-                       prodSpecCharValues=prodSpecChar.retrieveValue(time);
+            prodSpecCharValues=prodSpecChar.retrieveValue(time);
             fail("query the value of Charistist:time is null, expected IllegalArgumentException for time");
-
         } catch (IllegalArgumentException ex) {
         }
 
         time=new Date();
         prodSpecCharValues=prodSpecChar.retrieveValue(time);
-        assertEquals("query the value of CharististValue:No value of the Characteristic",0, prodSpecCharValues.size());
+        assertEquals("query the value of CharististValue:No value of the Characteristic", 0, prodSpecCharValues.size());
 
+        ProductSpecCharacteristicValue value=new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(),"GHz",validFor,"2.7",false);
+        exceptProductSpecCharacteristicValues.add(value);
+        value=new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(),"GHz",new TimePeriod("2015-05-03 12:00:00","2015-07-21 23:59:59"),"2.9",true);
+        exceptProductSpecCharacteristicValues.add(value);
         prodSpecCharValues=configSpecChar.retrieveValue(time);
         assertEquals("query the value of Charistist:(Time points in two time periods.)",2,prodSpecCharValues.size());
 
+        exceptProductSpecCharacteristicValues=new ArrayList<ProductSpecCharacteristicValue>();
         prodSpecCharValues=configSpecChar.retrieveValue(format.parse("2015-07-22 12:00:00"));
-        ProductSpecCharacteristicValue value=new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(),"GHz",new TimePeriod("2015-05-03 12:00:00","2015-07-21 23:59:59"),"2.9",true);
-        assertEquals("query the value of Charistist:(Time points in on time periods.)",1,prodSpecCharValues.size());
-        assertEquals("query the value of Charistist:(Time points in on time periods.)",true,prodSpecCharValues.contains(value));
+        ProductSpecCharacteristicValue value1=new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(),"GHz",new TimePeriod("2015-05-03 12:00:00","2015-07-21 23:59:59"),"2.9",true);
 
+        exceptProductSpecCharacteristicValues.add(value1);
+        assertEquals("query the value of Charistist:(Time points in on time periods.)", 1, prodSpecCharValues.size());
+        assertEquals("query the value of Charistist:(Time points in on time periods.)",exceptProductSpecCharacteristicValues,prodSpecCharValues);
+
+        exceptProductSpecCharacteristicValues=new ArrayList<ProductSpecCharacteristicValue>();
         prodSpecCharValues=configSpecChar.retrieveValue(format.parse("2015-01-03 12:00:00"));
         assertEquals("query the value of Charistist:(Time points not in on time periods.)",0,prodSpecCharValues.size());
+        assertEquals("query the value of Charistist:(Time points not in on time periods.)",exceptProductSpecCharacteristicValues,prodSpecCharValues);
     }
 
 	@Test
 	public void  testAddRelatedCharacteristic(){
         ProductSpecCharacteristic targetChar = null;
+        List<ProductSpecCharRelationship>  exceptProductSpecRelationship =new ArrayList<ProductSpecCharRelationship>();
         boolean result = false;
         try {
             prodSpecChar.addRelatedCharacteristic(targetChar, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getName(), validFor);
@@ -150,38 +171,47 @@ public class ProductSpecCharacteristicTest {
         assertEquals("add Related SpecChar:The srcChar is the same as the targetChar.",null, prodSpecChar.getProdSpecCharRelationship());
 
         result=prodSpecChar.addRelatedCharacteristic(targetChar, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
-        assertEquals("add Related SpecChar",true, result);
-        assertEquals("add Related SpecChar.",1, prodSpecChar.getProdSpecCharRelationship().size());
-        assertEquals("add Related SpecChar.",targetChar,prodSpecChar.getProdSpecCharRelationship().iterator().next().getTargetProdSpecChar());
+        ProductSpecCharRelationship productSpecCharValueRelationShip = new ProductSpecCharRelationship(prodSpecChar, targetChar, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
+        exceptProductSpecRelationship.add(productSpecCharValueRelationShip);
+        assertEquals("add Related SpecChar", true, result);
+        assertEquals("add Related SpecChar.", 1, prodSpecChar.getProdSpecCharRelationship().size());
+        assertEquals("add Related SpecChar.",exceptProductSpecRelationship,prodSpecChar.getProdSpecCharRelationship());
 
         result=prodSpecChar.addRelatedCharacteristic(targetChar, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), validFor);
         assertEquals("add duplicat Relationship",false, result);
         assertEquals("add duplicat Relationship.",1, prodSpecChar.getProdSpecCharRelationship().size());
+        assertEquals("add duplicat Relationship.",exceptProductSpecRelationship,prodSpecChar.getProdSpecCharRelationship());
 
         result=prodSpecChar.addRelatedCharacteristic(targetChar, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), new TimePeriod("2015-01-01 00:00:00","2015-01-29 23:59:59"));
-        assertEquals("add Related SpecChar：have create a aggregation relationship (time before )",true, result);
-        assertEquals("add Related SpecChar.",2, prodSpecChar.getProdSpecCharRelationship().size());
+        productSpecCharValueRelationShip = new ProductSpecCharRelationship(prodSpecChar, targetChar, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), new TimePeriod("2015-01-01 00:00:00","2015-01-29 23:59:59"));
+        exceptProductSpecRelationship.add(productSpecCharValueRelationShip);
+        assertEquals("add Related SpecChar：have create a aggregation relationship (time before )", true, result);
+        assertEquals("add Related SpecChar.", 2, prodSpecChar.getProdSpecCharRelationship().size());
+        assertEquals("add Related SpecChar.",exceptProductSpecRelationship, prodSpecChar.getProdSpecCharRelationship());
 
         result=prodSpecChar.addRelatedCharacteristic(targetChar, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), new TimePeriod("2015-01-01 00:00:00","2015-06-29 23:59:59"));
         assertEquals("add Related SpecChar：have create a aggregation relationship (time in period  )",false, result);
-        assertEquals("add Related SpecChar.",2, prodSpecChar.getProdSpecCharRelationship().size());
+        assertEquals("add Related SpecChar：have create a aggregation relationship (time in period  )",2, prodSpecChar.getProdSpecCharRelationship().size());
+        assertEquals("add Related SpecChar：have create a aggregation relationship (time in period  )",exceptProductSpecRelationship, prodSpecChar.getProdSpecCharRelationship());
 
         result=prodSpecChar.addRelatedCharacteristic(targetChar, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), new TimePeriod("2015-09-01 23:59:59","2015-10-29 23:59:59"));
-        assertEquals("add Related SpecChar：have create a aggregation relationship (time after  )",true, result);
-        assertEquals("add Related SpecChar.",3, prodSpecChar.getProdSpecCharRelationship().size());
+        productSpecCharValueRelationShip = new ProductSpecCharRelationship(prodSpecChar, targetChar, ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(), new TimePeriod("2015-09-01 23:59:59","2015-10-29 23:59:59"));
+        exceptProductSpecRelationship.add(productSpecCharValueRelationShip);
+        assertEquals("add Related SpecChar：have create a aggregation relationship (time after  )", true, result);
+        assertEquals("add Related SpecChar.have create a aggregation relationship (time after  )",3, prodSpecChar.getProdSpecCharRelationship().size());
+        assertEquals("add Related SpecChar：have create a aggregation relationship (time after  )",exceptProductSpecRelationship, prodSpecChar.getProdSpecCharRelationship());
 
         result=prodSpecChar.addRelatedCharacteristic(targetChar, ProdSpecEnum.ProdSpecRelationship.DEPENDENCY.getValue(), validFor);
         assertEquals("add Related SpecChar:have create other relationship", false, result);
         assertEquals("add Related SpecChar：have create other relationship",3, prodSpecChar.getProdSpecCharRelationship().size());
-        assertEquals("add Related SpecChar：have create other relationship", targetChar, prodSpecChar.getProdSpecCharRelationship().iterator().next().getTargetProdSpecChar());
-        assertEquals("add Related SpecChar：have create other relationship",ProdSpecEnum.ProdSpecRelationship.AGGREGATION.getValue(),prodSpecChar.getProdSpecCharRelationship().iterator().next().getCharRelationshipType());
-
+        assertEquals("add Related SpecChar：have create a aggregation relationship (time after  )",exceptProductSpecRelationship, prodSpecChar.getProdSpecCharRelationship());
     }
 
 	@Test 
 	public void testSpecifyDefaultValue(){
         boolean result=false;
         ProductSpecCharacteristicValue prodSpecCharValue=null;
+        List<ProductSpecCharacteristicValue> exceptDefaultValue= new ArrayList<ProductSpecCharacteristicValue> ();
         try{
             prodSpecChar.specifyDefaultValue(prodSpecCharValue);
             fail("add empty value ,expected IllegalArgumentException for value");
@@ -191,51 +221,59 @@ public class ProductSpecCharacteristicTest {
         prodSpecCharValue = new ProductSpecCharacteristicValue("1", "GHz", validFor, "8",false);
 		result = prodSpecChar.specifyDefaultValue(prodSpecCharValue);
 		assertEquals("no value of the current char", false, result);
-        assertEquals("no value of the current char", 0, prodSpecChar.retrieveDefaultValue().size());
+        assertEquals("no value of the current char", exceptDefaultValue, prodSpecChar.retrieveDefaultValue());
 
         prodSpecCharValue =  new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "GHz", validFor, "9",false);
         result=prodSpecChar.specifyDefaultValue(prodSpecCharValue);
         assertEquals("value not belong of the char",false,result);
-        assertEquals("value not belong of the char", false, prodSpecChar.retrieveDefaultValue().contains(prodSpecCharValue));
+        assertEquals("no value of the current char", exceptDefaultValue, prodSpecChar.retrieveDefaultValue());
 
         prodSpecChar.addValue(prodSpecCharValue);
+        exceptDefaultValue.add(new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "GHz", validFor, "9", true));
         result=prodSpecChar.specifyDefaultValue(prodSpecCharValue);
 		assertEquals("Char does not exist default values", true, prodSpecChar.retrieveDefaultValue().contains(prodSpecCharValue));
-        assertEquals("Char does not exist default values", 1, prodSpecChar.retrieveDefaultValue().size());
+        assertEquals("Char does not exist default values", exceptDefaultValue, prodSpecChar.retrieveDefaultValue());
 
         prodSpecCharValue =  new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "GHz", validFor, "10",false);
+        exceptDefaultValue.add(new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "GHz", validFor, "10", false));
         prodSpecChar.addValue(prodSpecCharValue);
         result= prodSpecChar.specifyDefaultValue(prodSpecCharValue);
         assertEquals("the current is not the defaultValue( has one default values)", true, result);
-        assertEquals("the current is not the defaultValue( has one default values)", true, prodSpecChar.retrieveDefaultValue().contains(prodSpecCharValue));
-        assertEquals("the current is not the defaultValue( has one default values)",2, prodSpecChar.retrieveDefaultValue().size());
-        prodSpecCharValue =  new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "GHz", validFor, "10",false);
+        assertEquals("the current is not the defaultValue( has one default values)", exceptDefaultValue, prodSpecChar.retrieveDefaultValue());
 
+        prodSpecCharValue =  new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "GHz", validFor, "10",false);
         result= prodSpecChar.specifyDefaultValue(prodSpecCharValue);
         assertEquals("the current value is  the default Value", true, result);
         assertEquals("the current value is  the default Value", true, prodSpecChar.retrieveDefaultValue().contains(prodSpecCharValue));
-        assertEquals("the current value is  the default Value",2, prodSpecChar.retrieveDefaultValue().size());
+        assertEquals("the current value is  the default Value", exceptDefaultValue, prodSpecChar.retrieveDefaultValue());
     }
     @Test
     public void testRetrieveDefaultValue(){
+        List<ProductSpecCharacteristicValue> exceptDefaultValue= new ArrayList<ProductSpecCharacteristicValue> ();
 
         List<ProductSpecCharacteristicValue> defaultCharValue=prodSpecChar.retrieveDefaultValue();
         assertEquals("retriveve the default value ：Char does not exist  values", 0, defaultCharValue.size());
+        assertEquals("retriveve the default value ：Char does not exist  values", exceptDefaultValue, defaultCharValue);
 
         ProductSpecCharacteristicValue value  =  new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "GHz", validFor, "10",false);
         prodSpecChar.addValue(value);
         defaultCharValue=prodSpecChar.retrieveDefaultValue();
         assertEquals("retriveve the default value ：Char does not exist  default values", 0, defaultCharValue.size());
-        assertEquals("retriveve the default value ：Char does not exist  default values",false,defaultCharValue.contains(value));
+        assertEquals("retriveve the default value ：Char does not exist  default values",exceptDefaultValue,defaultCharValue);
 
         defaultCharValue=configSpecChar.retrieveDefaultValue();
-        assertEquals("retriveve the default value ：Default values exist of  Char ",1,defaultCharValue.size());
+        value=new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(),"GHz",new TimePeriod("2015-05-03 12:00:00","2015-07-21 23:59:59"),"2.9",true);
+        exceptDefaultValue=new ArrayList<ProductSpecCharacteristicValue>();
+        exceptDefaultValue.add(value);
+        assertEquals("retriveve the default value ：Default values exist of  Char ", 1, defaultCharValue.size());
+        assertEquals("retriveve the default value ：Default values exist of  Char ", exceptDefaultValue, defaultCharValue);
 
     }
     @Test
     public void testClearDefaultValue(){
         boolean result = false;
         ProductSpecCharacteristicValue value =null;
+        List<ProductSpecCharacteristicValue> exceptDefaultValue= new ArrayList<ProductSpecCharacteristicValue> ();
         try{
             result=prodSpecChar.clearDefaultValue(value);
             fail("clear the default Value of Char ,but the value is null,expected IllegalArgumentException for value");
@@ -246,29 +284,34 @@ public class ProductSpecCharacteristicTest {
         result=prodSpecChar.clearDefaultValue(value);
         assertEquals("No value of the Characteristic",false,result);
         assertEquals("No value of the Characteristic",null,prodSpecChar.getProdSpecCharValue());
-        assertEquals("No value of the Characteristic", false, prodSpecChar.retrieveDefaultValue().contains(value));
+        assertEquals("No value of the Characteristic", exceptDefaultValue, prodSpecChar.retrieveDefaultValue());
 
         result = configSpecChar.clearDefaultValue(value);
-        assertEquals("clear default value:  Values do not belong to this char",false,result);
-        assertEquals("clear default value:  Values do not belong to this char",false,configSpecChar.getProdSpecCharValue().contains(value));
-        assertEquals("clear default value:  Values do not belong to this char", false, configSpecChar.retrieveDefaultValue().contains(value));
+        value=new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(),"GHz",new TimePeriod("2015-05-03 12:00:00","2015-07-21 23:59:59"),"2.9",true);
+        exceptDefaultValue.add(value) ;
+        assertEquals("clear default value:  Values do not belong to this char", false, result);
+        assertEquals("clear default value:  Values do not belong to this char", 1, configSpecChar.retrieveDefaultValue().size());
+        assertEquals("clear default value:  Values do not belong to this char", exceptDefaultValue, configSpecChar.retrieveDefaultValue());
 
-        prodSpecChar.addValue(value);
-        result=prodSpecChar.clearDefaultValue(value);
-        assertEquals("No Default value of the Characteristic", true, result);
-        assertEquals("No Default value of the Characteristic", false, prodSpecChar.retrieveDefaultValue().contains(value));
 
         value=new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(),"GHz",validFor,"2.7",false);
         result=configSpecChar.clearDefaultValue(value);
         assertEquals("Value is not the default value",true,result);
-        assertEquals("Value is not the default value",false,configSpecChar.retrieveDefaultValue().contains(value));
+        assertEquals("Value is not the default value",exceptDefaultValue,configSpecChar.retrieveDefaultValue());
 
         value=new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(),"GHz",new TimePeriod("2015-05-03 12:00:00","2015-07-21 23:59:59"),"2.9",true);
         configSpecChar.addValue(value);
         result=configSpecChar.clearDefaultValue(value);
+        exceptDefaultValue.remove(value)  ;
+        assertEquals("clear default value: Value is  the default value", true, result);
+        assertEquals("clear default value: Value is  the default value",exceptDefaultValue,configSpecChar.retrieveDefaultValue());
 
-        assertEquals("clear default value: Value is  the default value",true,result);
-        assertEquals("clear default value: Value is  the default value",false,configSpecChar.retrieveDefaultValue().contains(value));
+        exceptDefaultValue= new ArrayList<ProductSpecCharacteristicValue> ();
+        prodSpecChar.addValue(value);
+        result=prodSpecChar.clearDefaultValue(value);
+        assertEquals("No Default value of the Characteristic", true, result);
+        assertEquals("No Default value of the Characteristic", exceptDefaultValue, prodSpecChar.retrieveDefaultValue());
+
     }
      @Test
     public void testUpdateRelatedCharValidPeriod()  {

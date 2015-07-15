@@ -3,6 +3,7 @@ package com.digiwes.product.offering.catalog;
 import java.util.*;
 
 import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.ValidUtil;
 import com.digiwes.product.offering.ProductOffering;
 import com.digiwes.product.offering.price.ProductOfferingPrice;
 import org.apache.log4j.Logger;
@@ -40,10 +41,7 @@ public class ProdCatalogProdOffer {
      * @param validFor
      */
     public ProdCatalogProdOffer(ProductOffering offering, TimePeriod validFor) {
-        if( null == offering){
-            logger.error("offering can't be null");
-            throw new IllegalArgumentException("offering Can't be null");
-        }
+        assert !ValidUtil.checkObjectIsNull(offering):"offering can't be null";
         this.prodOffering =  offering;
         this.validFor = validFor;
     }
@@ -55,12 +53,7 @@ public class ProdCatalogProdOffer {
      * @param price
      */
     public ProdCatalogProdOffer(ProductOffering offering, TimePeriod validFor, List<ProductOfferingPrice> price) {
-        if( null == offering){
-            logger.error("offering can't be null");
-            throw new IllegalArgumentException("offering Can't be null");
-        }
-        this.prodOffering =  offering;
-        this.validFor = validFor;
+        this(offering,validFor);
         this.productOfferingPrice=price;
     }
 
@@ -70,8 +63,9 @@ public class ProdCatalogProdOffer {
      */
     public boolean advertiseOfferingPrice(ProductOfferingPrice price) {
         if( null == price ){
-            logger.error("advertiseOfferingPrice method ,price should not be null");
-            throw new IllegalArgumentException("advertiseOfferingPrice method ,price should not be null");
+            return false;
+//            logger.error("advertiseOfferingPrice method ,price should not be null");
+//            throw new IllegalArgumentException("advertiseOfferingPrice method ,price should not be null");
         }
         if ( null == this.productOfferingPrice ){
             productOfferingPrice=new ArrayList<ProductOfferingPrice>();

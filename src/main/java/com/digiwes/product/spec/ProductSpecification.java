@@ -2,8 +2,11 @@ package com.digiwes.product.spec;
 
 import com.digiwes.basetype.Money;
 import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.enums.CommonErrorCode;
 import com.digiwes.common.enums.ProdSpecEnum;
+import com.digiwes.common.enums.ProdSpecErrorCode;
 import com.digiwes.common.util.NumberUtil;
+import com.digiwes.common.util.ValidUtil;
 import com.digiwes.product.offering.SimpleProductOffering;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -17,7 +20,7 @@ public abstract class ProductSpecification {
 	private static final Logger log = Logger.getLogger(ProductSpecification.class);
 
     public List<ProductSpecificationCost> productSpecificationCost;
-    public List<ProductSpecificationRelationship> prodSpecRelationship;
+    public List<ProductSpecificationRelationship> prodSpecRelationship = new ArrayList<ProductSpecificationRelationship>();
     public List<ProductSpecificationVersion> prodSpecVersion;
     public Set<ProductSpecCharUse> prodSpecChar;
     public List<CompositeProductSpecification> compositeProdSpec;
@@ -600,37 +603,26 @@ public abstract class ProductSpecification {
      * @param type
      * @param validFor
      */
-    public boolean addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
-    	if(StringUtils.isEmpty(type)){
-    		log.error("the parameter type is null. ");
-    		throw new IllegalArgumentException("type should not be null. ");
+    public int addRelatedProdSpec(ProductSpecification prodSpec, String type, TimePeriod validFor) {
+    	if (StringUtils.isEmpty(type)) {
+			return ProdSpecErrorCode.RELATIONSHIP_TYPE_IS_NULL.getCode();
     	}
-    	if(null == prodSpec){
-    		log.error("the object of ProductSpecification is null. ");
-    		throw new IllegalArgumentException("prodSpec should not be null .");
+    	if(!ValidUtil.checkObjectIsNull(prodSpec)){
+			return ProdSpecErrorCode.PROD_SPEC_IS_NULL.getCode();
     	}
 		if(this.equals(prodSpec)){
-			log.error("can't establish relationship with itself. ");
-			throw new IllegalArgumentException("can't establish relationship with itself. ");
-		}
-		if(null == validFor){
-			log.error("validFor is null. ");
-			throw new IllegalArgumentException("validFor should not be null .");
+			return ProdSpecErrorCode.PROD_SPEC_EQUALS_TO_CURRENT.getCode();
 		}
 		//checkout time is in period
 		ProductSpecificationRelationship prodSpecRealtionship = this.retrieveRelatedProdSpecBySpec(prodSpec);
 		if(null != prodSpecRealtionship){
 			if(prodSpecRealtionship.getValidFor().isOverlap(validFor)){
-				log.error("time is in period");
-				return false;
+				return ProdSpecErrorCode.PROD_SPEC_HAS_RELATED_TO_CURRENT.getCode();
 			}
 		}
-    	if(null == this.prodSpecRelationship){
-    		this.prodSpecRelationship = new ArrayList<ProductSpecificationRelationship>();
-    	}
     	ProductSpecificationRelationship ship =new ProductSpecificationRelationship(this, prodSpec, type, validFor);
     	this.prodSpecRelationship.add(ship);
-		return true;
+		return CommonErrorCode.SUCCESS.getCode();
     }
 
 	/**

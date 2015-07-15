@@ -2,6 +2,7 @@ package com.digiwes.product.spec;
 
 
 import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.ValidUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -40,30 +41,19 @@ public class ProdSpecCharValueRelationship {
 
     /**
      * 
-     * @param srourceCharValue
+     * @param sourceCharValue
      * @param targetCharValue
      * @param relationType
      * @param validFor
      */
-    public ProdSpecCharValueRelationship(ProductSpecCharacteristicValue srourceCharValue, ProductSpecCharacteristicValue targetCharValue, String relationType, TimePeriod validFor) {
-		if ( null == srourceCharValue ){
-            logger.error("srcProdSpecChar should not be null");
-            throw new IllegalArgumentException("srcProdSpecChar should not be null");
-        }
-        if ( null == targetCharValue ) {
-            logger.error("targetCharValue should not be null");
-            throw new IllegalArgumentException("targetCharValue should not be null");
-        }
-		if(srourceCharValue.equals(targetCharValue)){
-			logger.error("targetCharValue should not be null");
-			throw new IllegalArgumentException("targetCharValue should not be null");
+    public ProdSpecCharValueRelationship(ProductSpecCharacteristicValue sourceCharValue, ProductSpecCharacteristicValue targetCharValue, String relationType, TimePeriod validFor) {
 
-		}
-		if(StringUtils.isEmpty(relationType)){
-			logger.error("relationType should not be null");
-			throw new IllegalArgumentException("relationType should not be null");
-		}
-        this.sourceCharValue = srourceCharValue;
+		assert !ValidUtil.checkObjectIsNull(sourceCharValue): "srcProdSpecChar should not be null";
+		assert !ValidUtil.checkObjectIsNull(targetCharValue): "targetCharValue should not be null";
+		assert !sourceCharValue.equals(targetCharValue): "targetCharValue should not be null";
+		assert !StringUtils.isEmpty(relationType): "relationType should not be null";
+
+		this.sourceCharValue = sourceCharValue;
         this.productSpecCharacteristicValue = targetCharValue;
 		this.charValueRelationshipType=relationType;
 		this.validFor=validFor;

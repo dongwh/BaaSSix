@@ -31,6 +31,7 @@ public class ProductSpecCharUseTest {
 	@Test
     public void testAddValue(){
 		boolean result=false;
+		Set<ProdSpecCharValueUse> exceptProductSpecCharValue=null;
 		try{
 			pscu.addValue(null,false,validFor);
 			fail("add a empty value ,excepted illegalArgumentException for value");
@@ -40,30 +41,31 @@ public class ProductSpecCharUseTest {
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
 		result= pscu.addValue(prodSpecCharValue, false, validFor);
 		assertEquals("add value　：value is not belong of the char",false,result);
-		assertEquals("add value　：value is not belong of the char",null,pscu.getProdSpecCharValue());
+		assertEquals("add value　：value is not belong of the char",exceptProductSpecCharValue,pscu.getProdSpecCharValue());
 
-		 prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12", false);
-
+		prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12", false);
+		exceptProductSpecCharValue=new HashSet<ProdSpecCharValueUse>();
+		exceptProductSpecCharValue.add(new ProdSpecCharValueUse(prodSpecCharValue, false, validFor)) ;
 		result=pscu.addValue(prodSpecCharValue, false, validFor);
 		assertEquals("add value",true,result);
 		assertEquals("add value",1,pscu.getProdSpecCharValue().size());
-		assertEquals("add value",prodSpecCharValue,pscu.getProdSpecCharValue().iterator().next().getProdSpecCharValue());
+		assertEquals("add value",exceptProductSpecCharValue,pscu.getProdSpecCharValue());
 
 		result=pscu.addValue(prodSpecCharValue, false, validFor);
 		assertEquals("add a duplicate value",true,result);
 		assertEquals("add a duplicate value", 1, pscu.getProdSpecCharValue().size());
-		assertEquals("add a duplicate value",prodSpecCharValue,pscu.getProdSpecCharValue().iterator().next().getProdSpecCharValue());
+		assertEquals("add a duplicate value",exceptProductSpecCharValue,pscu.getProdSpecCharValue());
 
 		prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12", false);
 		result=pscu.addValue(prodSpecCharValue, false, validFor);
 		assertEquals("add a duplicate value",true,result);
 		assertEquals("add a duplicate value", 1, pscu.getProdSpecCharValue().size());
-		assertEquals("add a duplicate value",prodSpecCharValue,pscu.getProdSpecCharValue().iterator().next().getProdSpecCharValue());
-
+		assertEquals("add a duplicate value",exceptProductSpecCharValue,pscu.getProdSpecCharValue());
 	}
 	@Test
 	public void testRemoveValue(){
 		boolean result=false;
+		Set<ProdSpecCharValueUse> exceptProductSpecCharValue=null;
 		ProductSpecCharacteristicValue prodSpecCharValue=null;
 		try{
 			pscu.removeValue(prodSpecCharValue);
@@ -74,72 +76,78 @@ public class ProductSpecCharUseTest {
 		prodSpecCharValue = new ProductSpecCharacteristicValue("1", "cm", validFor, "12", "", "");
 		result=pscu.removeValue(prodSpecCharValue);
 		assertEquals("value is not belong of the char ",false,result);
-		assertEquals("value is not belong of the char ",null,pscu.getProdSpecCharValue());
+		assertEquals("value is not belong of the char ", exceptProductSpecCharValue, pscu.getProdSpecCharValue());
 
 
-		prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12", "", "");
+ 		 prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12", false);
+
 		result=pscu.removeValue(prodSpecCharValue);
-		assertEquals("the current char not used the value ",false,result);
-		assertEquals("the current char not used the value",null,pscu.getProdSpecCharValue());
+		assertEquals("the current char not used the value ",true,result);
+		assertEquals("the current char not used the value",exceptProductSpecCharValue,pscu.getProdSpecCharValue());
 
 		pscu.addValue(prodSpecCharValue, false, validFor);
+		exceptProductSpecCharValue = new HashSet<ProdSpecCharValueUse>();
 		result=pscu.removeValue(prodSpecCharValue);
 		assertEquals("remove value",true,result);
-		assertEquals("remove value",0,pscu.getProdSpecCharValue().size());
+		assertEquals("remove value",exceptProductSpecCharValue,pscu.getProdSpecCharValue());
 	}
 	@Test 
 	public void testSpecifyDefaultCharacteristicValue(){
-
+		List<ProdSpecCharValueUse> exceptProdSpecCharValueUses = new ArrayList<ProdSpecCharValueUse>();
 		ProductSpecCharacteristicValue prodSpecCharValue = null;
 		boolean result=false;
 		try{
 			pscu.specifyDefaultCharacteristicValue(prodSpecCharValue);
 			fail("specify a empty value ，excepted illegalArgumentException for charValue");
 		}   catch (IllegalArgumentException ex){
-
 		}
 		prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "15", "", "");
 		result=pscu.specifyDefaultCharacteristicValue(prodSpecCharValue);
 	    assertEquals("value is not belong of the current char ",false,result);
+		assertEquals("value is not belong of the current char ",exceptProdSpecCharValueUses,pscu.retrieveDefaultCharacteristicValueUse());
 
 		prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12", false);
 		result=pscu.specifyDefaultCharacteristicValue(prodSpecCharValue);
 		assertEquals("the current char not used the value", false, result);
-		assertEquals("the current char not used the value", null, pscu.getProdSpecCharValue());
+		assertEquals("the current char not used the value", exceptProdSpecCharValueUses, pscu.retrieveDefaultCharacteristicValueUse());
 
 		pscu.addValue(prodSpecCharValue, false, validFor);
+		exceptProdSpecCharValueUses.add(new ProdSpecCharValueUse(prodSpecCharValue, true, validFor));
 		result=pscu.specifyDefaultCharacteristicValue(prodSpecCharValue);
 		assertEquals("the current char  used the value", true, result);
 		assertEquals("the current char  used the value", 1, pscu.retrieveDefaultCharacteristicValueUse().size());
-		assertEquals("the current char  used the value", true, pscu.getProdSpecCharValue().iterator().next().isIsDefault());
+		assertEquals("the current char  used the value", exceptProdSpecCharValueUses, pscu.retrieveDefaultCharacteristicValueUse());
 
-
-		prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12.3", false);
+		exceptProdSpecCharValueUses = new ArrayList<ProdSpecCharValueUse>();
+ 		prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12.3", false);
 		pscu.addValue(prodSpecCharValue, false, validFor);
+		exceptProdSpecCharValueUses.add(new ProdSpecCharValueUse(prodSpecCharValue, true, validFor));
 		result=pscu.specifyDefaultCharacteristicValue(prodSpecCharValue);
+		prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12", false);
+		exceptProdSpecCharValueUses.add(new ProdSpecCharValueUse(prodSpecCharValue, true, validFor));
 		assertEquals("have one defaultValue", true, result);
-		assertEquals("have one defaultValue", 2, pscu.retrieveDefaultCharacteristicValueUse().size());
-		Iterator<ProdSpecCharValueUse>  useChar=pscu.getProdSpecCharValue().iterator();
-		useChar.next();
-		assertEquals("have one defaultValue", true, useChar.next().isIsDefault());
+		assertEquals("have one defaultValue", exceptProdSpecCharValueUses, pscu.retrieveDefaultCharacteristicValueUse());
+
 	}
 	@Test
 	public void testRetrieveDefaultCharacteristicValueUse(){
 		ProductSpecCharacteristicValue prodSpecCharValue = null;
-
+		List<ProdSpecCharValueUse> exceptProdSpecCharValueUses = new ArrayList<ProdSpecCharValueUse>();
 		List<ProdSpecCharValueUse> defaultValues=pscu.retrieveDefaultCharacteristicValueUse();
-		assertEquals("the current have not used value",0,defaultValues.size());
+		assertEquals("the current have not used value",exceptProdSpecCharValueUses,defaultValues);
 
 		prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12.3", false);
-	    pscu.addValue(prodSpecCharValue,true,validFor);
+	    pscu.addValue(prodSpecCharValue, true, validFor);
+		exceptProdSpecCharValueUses.add(new ProdSpecCharValueUse(prodSpecCharValue,true,validFor)) ;
 		defaultValues=pscu.retrieveDefaultCharacteristicValueUse();
 		assertEquals("the current have  used value", 1, defaultValues.size());
-		assertEquals("the current have  used value",prodSpecCharValue,defaultValues.get(0).getProdSpecCharValue());
+		assertEquals("the current have  used value",exceptProdSpecCharValueUses,defaultValues);
 
 	}
 	@Test
 	public void testClearDefaultValue(){
 		boolean result=  false;
+		List<ProdSpecCharValueUse> exceptProdSpecCharValueUses = new ArrayList<ProdSpecCharValueUse>();
 		try{
 			result = pscu.clearDefaultValueUse(null);
 			fail("parameter is empty value ,excepted a IllegalArgumentExceiption for parameter");
@@ -150,23 +158,25 @@ public class ProductSpecCharUseTest {
 		ProductSpecCharacteristicValue prodSpecCharValuee = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12.3", false);
 		result=pscu.clearDefaultValueUse(prodSpecCharValuee)  ;
 		assertEquals("char not used the specify value", false, result);
-		assertEquals("char not used the specify value", 0, pscu.retrieveDefaultCharacteristicValueUse().size());
+		assertEquals("char not used the specify value", exceptProdSpecCharValueUses, pscu.retrieveDefaultCharacteristicValueUse());
 
 		pscu.addValue(prodSpecCharValuee, false, validFor);
 		result = pscu.clearDefaultValueUse(prodSpecCharValuee);
 		assertEquals("char used the specify value ,but not the default value", true, result);
-		assertEquals("char not used the specify value", 0, pscu.retrieveDefaultCharacteristicValueUse().size());
+		assertEquals("char not used the specify value", exceptProdSpecCharValueUses, pscu.retrieveDefaultCharacteristicValueUse());
 
+		exceptProdSpecCharValueUses.add(new ProdSpecCharValueUse(prodSpecCharValuee, true, validFor));
 		pscu.specifyDefaultCharacteristicValue(prodSpecCharValuee);
 		ProductSpecCharacteristicValue prodSpecCharValue = new ProductSpecCharacteristicValue(ProdSpecEnum.ProdSpecType.NUMERIC.getName(), "cm", validFor, "12", false);
 		pscu.addValue(prodSpecCharValue, true, validFor);
 		result = pscu.clearDefaultValueUse(prodSpecCharValue);
 		assertEquals("char used the specify value（have two default value）", true, result);
-		assertEquals("char not used the specify value", 1, pscu.retrieveDefaultCharacteristicValueUse().size());
+		assertEquals("char not used the specify value", exceptProdSpecCharValueUses, pscu.retrieveDefaultCharacteristicValueUse());
 
 		result = pscu.clearDefaultValueUse(prodSpecCharValuee);
+		exceptProdSpecCharValueUses.remove(new ProdSpecCharValueUse(prodSpecCharValuee, true, validFor)) ;
 		assertEquals("char used the specify value（have one default value）", true, result);
-		assertEquals("char not used the specify value", 0, pscu.retrieveDefaultCharacteristicValueUse().size());
+		assertEquals("char not used the specify value", exceptProdSpecCharValueUses, pscu.retrieveDefaultCharacteristicValueUse());
 
 	}
 }

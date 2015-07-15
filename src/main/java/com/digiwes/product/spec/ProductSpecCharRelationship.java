@@ -1,5 +1,6 @@
 package com.digiwes.product.spec;
 import com.digiwes.basetype.TimePeriod;
+import com.digiwes.common.util.ValidUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -63,30 +64,17 @@ public class ProductSpecCharRelationship {
      * @param validFor
      */
     public ProductSpecCharRelationship(ProductSpecCharacteristic srourceSpecChar, ProductSpecCharacteristic targetSpecChar, String relationType, TimePeriod validFor) {
-		 initProductSpecCharRelationShip(srourceSpecChar,targetSpecChar,relationType,validFor);
-    }
-	private void initProductSpecCharRelationShip(ProductSpecCharacteristic srourceSpecChar, ProductSpecCharacteristic targetSpecChar, String relationType, TimePeriod validFor){
-		if (null == srourceSpecChar) {
-			logger.error("srcProdSpecChar should not be null");
-			throw new IllegalArgumentException("srcProdSpecChar should not be null");
-		}
-		if (null == targetSpecChar) {
-			logger.error("targetProdSpecChar should not be null");
-			throw new IllegalArgumentException("targetProdSpecChar should not be null");
-		}
-		if(srourceSpecChar.equals(targetSpecChar)) {
-			logger.error("The srcChar is the same as the targetChar.");
-			throw new IllegalArgumentException("The srcChar is the same as the targetChar.");
-		}
-		if(StringUtils.isEmpty(relationType)){
-			logger.error("relationType should not be null");
-			throw new IllegalArgumentException("relationType should not be null");
-		}
+		 assert !ValidUtil.checkObjectIsNull(srourceSpecChar):"sourProdSpecChar should not be null";
+		assert !ValidUtil.checkObjectIsNull(targetSpecChar):"targetProdSpecChar should not be null";
+		assert !srourceSpecChar.equals(targetSpecChar):"The srcChar is the same as the targetChar.";
+		assert !StringUtils.isEmpty(relationType) : "relationType should not be null";
+
 		this.sourceProdSpecChar = srourceSpecChar;
 		this.targetProdSpecChar = targetSpecChar;
 		this.charRelationshipType = relationType;
 		this.validFor = validFor;
-	}
+    }
+
 
 
     /**
@@ -98,7 +86,7 @@ public class ProductSpecCharRelationship {
      * @param specSeq
      */
     public ProductSpecCharRelationship(ProductSpecCharacteristic srourceSpecChar,ProductSpecCharacteristic targetSpecChar, String relationType, TimePeriod validFor, int specSeq) {
-		initProductSpecCharRelationShip(srourceSpecChar,targetSpecChar,relationType,validFor);
+		this(srourceSpecChar,targetSpecChar,relationType,validFor);
 		this.charSpecSeq =specSeq ;
 	}
 

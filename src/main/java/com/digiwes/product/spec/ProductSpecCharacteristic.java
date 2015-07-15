@@ -2,6 +2,7 @@ package com.digiwes.product.spec;
 
 import com.digiwes.basetype.TimePeriod;
 import com.digiwes.common.util.ConvertMap2Json;
+import com.digiwes.common.util.ValidUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -145,19 +146,8 @@ public class ProductSpecCharacteristic {
 
     public ProductSpecCharacteristic(String id, String name, String valueType, TimePeriod validFor, String unique,
                                      int minCardinality, int maxCardinality) {
-
-        if ( StringUtils.isEmpty( id ) ) {
-            logger.error("id should not be null");
-            throw new IllegalArgumentException("id should not be null");
-        }
-        if ( StringUtils.isEmpty(valueType) ) {
-            logger.error("valueType should not be null");
-            throw new IllegalArgumentException("valueType should not be null");
-        }
-        if ( StringUtils.isEmpty(name)){
-            logger.error("name should not be null");
-            throw new IllegalArgumentException("name should not be null");
-        }
+        assert !StringUtils.isEmpty(id):"id can't be null";
+        assert !StringUtils.isEmpty(name):"name can't be null";
         this.ID = id;
         this.name = name;
         this.valueType = valueType;
@@ -179,25 +169,7 @@ public class ProductSpecCharacteristic {
      * @param derivationFormula
      */
     public ProductSpecCharacteristic(String id, String name, String valueType, TimePeriod validFor, String unique, int minCardinality, int maxCardinality, boolean extensible, String description, String derivationFormula) {
-        if (StringUtils.isEmpty(id)) {
-            logger.error("id should not be null");
-            throw new IllegalArgumentException("id should not be null");
-        }
-        if (StringUtils.isEmpty(valueType)) {
-            logger.error("valueType should not be null");
-            throw new IllegalArgumentException("valueType should not be null");
-        }
-        if (StringUtils.isEmpty(name)) {
-            logger.error("name should not be null");
-            throw new IllegalArgumentException("name should not be null");
-        }
-        this.ID = id;
-        this.name = name;
-        this.valueType = valueType;
-        this.validFor = validFor;
-        this.unique = unique;
-        this.minCardinality = minCardinality;
-        this.maxCardinality = maxCardinality;
+        this( id, name,valueType,validFor,unique,minCardinality,maxCardinality) ;
         this.extensible = extensible;
         this.description = description;
         this.derivationFormula = derivationFormula;
@@ -207,20 +179,21 @@ public class ProductSpecCharacteristic {
      * @param minCardinality
      * @param maxCardinality
      */
-    public void specifyCardinality(int minCardinality, int maxCardinality) {
+    public boolean specifyCardinality(int minCardinality, int maxCardinality) {
         if (minCardinality > maxCardinality) {
-            logger.error("maxCardinality is less than minCardinality");
-            throw  new IllegalArgumentException("maxCardinality is less than minCardinality");
+            logger.warn("maxCardinality is less than minCardinality");
+            return false;
         }
         this.minCardinality = minCardinality;
         this.maxCardinality = maxCardinality;
+        return true;
     }
 
     /**
      * @param charVal
      */
     public boolean addValue(ProductSpecCharacteristicValue charVal) {
-        if (null == charVal) {
+        if (ValidUtil.checkObjectIsNull(charVal)) {
             logger.error("charVal should not be null");
             throw new IllegalArgumentException("charVal can not be null");
         }
@@ -346,11 +319,6 @@ public class ProductSpecCharacteristic {
         }
 
         if (this.equals(specChar)) {
-
-            logger.warn("the  SourceChar is" + this.basicInfoToString());
-
-            logger.warn("this TargetChar is" + specChar.basicInfoToString());
-
             return false;
         }
         ProductSpecCharRelationship relationship = this.retrieveRelatedCharacteristic(specChar);
@@ -359,7 +327,6 @@ public class ProductSpecCharacteristic {
             if (relationship.getValidFor().isOverlap(validFor)) {
 
                 logger.warn("Characteristic have been created associate relationship in the specified time");
-                logger.warn("the exists relationship :" + relationship.toString());
                 return false;
             }
         }

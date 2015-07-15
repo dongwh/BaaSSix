@@ -64,15 +64,9 @@ public class Catalog {
      * @param validFor
      */
     public Catalog(String id, String name, String type, TimePeriod validFor) {
-        if (StringUtils.isEmpty(id)) {
-            logger.error(" id can't be null .");
-            throw new IllegalArgumentException(" id can't be null .");
-        }
+        assert !StringUtils.isEmpty(id):" id can't be null .";
+        assert !StringUtils.isEmpty(name):"name can't be null";
 
-        if( StringUtils.isEmpty(name) ){
-            logger.error("name can't be null");
-            throw  new IllegalArgumentException("name can't be null");
-        }
     	this.ID = id;
     	this.name = name;
     	this.type = type;

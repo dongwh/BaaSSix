@@ -32,20 +32,4 @@ public class AtomicProductSpecification extends ProductSpecification {
     	super(name, productNumber, brand);
     }
 
-	/*@Override
-	public void addCharacteristic(ProductSpecCharacteristic specChar,
-			boolean canBeOveridden, boolean isPackage, TimePeriod validFor,
-			String name, String unique, int minCardinality, int maxCardinality,
-			boolean extensible, String description) {
-		 
-		ProductSpecCharUse prodSpecCharUse = new ProductSpecCharUse(specChar, canBeOveridden, isPackage, validFor, name, unique, minCardinality, maxCardinality, extensible, description);
-	    
-		if(null==prodSpecChar || "".equals(prodSpecChar)){
-			prodSpecChar = new ArrayList<ProductSpecCharUse>();
-		}
-		
-	    prodSpecChar.add(prodSpecCharUse);
-		
-	}*/
-
 }

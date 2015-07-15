@@ -124,14 +124,8 @@ public class ProductSpecCharacteristicValue {
      * @param isDefault
      */
     public ProductSpecCharacteristicValue(String valueType, String unitOfMeasure, TimePeriod validFor, String value, boolean isDefault) {
-		if ( StringUtils.isEmpty(valueType) ) {
-			logger.error("valueType should not be null");
-			throw new IllegalArgumentException("valueType should not be null");
-		}
-		if(StringUtils.isEmpty(value)){
-			logger.error("value should not be null");
-			throw new IllegalArgumentException("value should not be null");
-		}
+		assert  !StringUtils.isEmpty(valueType):"valueType should not be null";
+		assert  !StringUtils.isEmpty(value):"value should not be null";
 		this.valueType = valueType;
         this.unitOfMeasure = unitOfMeasure;
         this.validFor = validFor;
@@ -148,17 +142,10 @@ public class ProductSpecCharacteristicValue {
      * @param rangeInterval
      */
     public ProductSpecCharacteristicValue(String valueType, String unitOfMeasure, TimePeriod validFor, String valueFrom, String valueTo, String rangeInterval) {
-		if(StringUtils.isEmpty(valueType)){
-			logger.error("valueType should not be null");
-			throw new IllegalArgumentException("valueType should not be null");
-		}
-		if (StringUtils.isEmpty(valueFrom) && StringUtils.isEmpty(valueTo)) {
-			logger.error("valueFrom and valueTo should not be null at the same time.");
-			throw new IllegalArgumentException("valueFrom and valueTo should not be null at the same time.");
-		}else if(StringUtils.isEmpty(valueFrom)){
-			logger.error("valueFrom should not be null .");
-			throw new IllegalArgumentException("valueFrom should not be null .");
-		}else if(StringUtils.isEmpty(valueTo)){
+		assert  ! StringUtils.isEmpty(valueType):"valueType should not be null";
+		assert  !(StringUtils.isEmpty(valueFrom) && StringUtils.isEmpty(valueTo)):"valueFrom and valueTo should not be null at the same time.";
+		assert  !StringUtils.isEmpty(valueFrom) :"valueFrom should not be null .";
+		if(StringUtils.isEmpty(valueTo)){
 			valueTo=valueFrom;
 		}
 		this.valueType = valueType;
